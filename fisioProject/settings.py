@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Django settings for fisioProject project.
 
@@ -37,6 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #'teste', #app para fazer testes
+    'pessoas',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,7 +59,10 @@ ROOT_URLCONF = 'fisioProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            #informa que na raiz do projeto terá a pasta templates para os templates da aplicação
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,3 +107,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#arquivos statics para toda a aplicação
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+
+

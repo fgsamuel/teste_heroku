@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block conteudo %}
+	<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+</style>
+
+{% block inserirPessoa %}
+	Local para inserir pessoa
+{% endblock inserirPessoa %}
+
+<table style="width:80%">
+  <tr>
+    <th>Nome</th>
+    <th>Visualizar</th>		
+    <th>Editar</th>
+    <th>Excluir</th>
+  </tr>
+
+  {% for pessoa in pessoas %}
+  	<tr>
+  		<td> {{ pessoa.nome }} </td>
+  		<td>Visualizar</td>
+  		<td>Editar</td>
+  		<td>Excluir</td>
+  	</tr>
+  {% endfor %}
+
+</table>
+{% endblock conteudo %}
