@@ -11,8 +11,12 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
 
+    #CLIENTES
     url(r'^clientes/$', pessoas_view.clientes, name="pessoas_clientes"),
-    url(r'^clientes/editar/(?P<id>[0-9]*)/$', pessoas_view.clientes_editar, name="pessoas_clientes_editar"),
+    url(r'^clientes/inserir/$', pessoas_view.clientes_inserir, name="pessoas_clientes_inserir"),
+    url(r'^clientes/editar/(?P<pessoaId>[0-9]+)/$', pessoas_view.clientes_editar, name="pessoas_clientes_editar"),
+    url(r'^clientes/visualizar/(?P<pessoaId>[0-9]+)/$', pessoas_view.clientes_visualizar, name="pessoas_clientes_visualizar"),
+    url(r'^clientes/excluir/(?P<pessoaId>[0-9]+)/$', pessoas_view.clientes_excluir, name="pessoas_clientes_excluir"),
 
 
     url(r'^avaliadores/', pessoas_view.avaliadores, name="pessoas_avaliadores"),

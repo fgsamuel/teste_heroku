@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="pt-br" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="ISO-8859-1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0" />
 	<title>FISIO - Sistema de Avaliação Física</title>
 	<link rel="stylesheet" href={% static "layout/css/style.css" %} type="text/css" media="all" />
@@ -33,8 +33,8 @@
 				<nav id="navigation">
 					<a href="#" class="nav-btn">HOME<span class="arr"></span></a>
 					<ul>
-						<li><a href="/clientes">Clientes</a></li>
-						<li><a href="/avaliadores">Avaliadores</a></li>
+						<li><a href="{% url "pessoas_clientes" %}">Clientes</a></li>
+						<li><a href="{% url "pessoas_avaliadores" %}">Avaliadores</a></li>
 						<li><a href="#">Avaliações</a></li>
 					</ul>
 				</nav>

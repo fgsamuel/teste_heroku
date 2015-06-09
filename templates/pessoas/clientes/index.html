@@ -1,5 +1,39 @@
-{% extends "pessoas/index.html" %}
+{% extends "base.html" %}
+{% block conteudo %}
+	<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+</style>
 
-{% block inserirPessoa %}
-	Inserir Cliente
-{% endblock inserirPessoa %}
+<a href={% url "pessoas_clientes_inserir" %}>Inserir novo Cliente</a>
+
+<table style="width:80%">
+  <tr>
+    <th>Nome</th>
+    <th>Visualizar</th>		
+    <th>Editar</th>
+    <th>Excluir</th>
+  </tr>
+
+  {% for pessoa in pessoas %}
+  	<tr>
+  		<td> {{ pessoa.nome }} </td>
+  		<td>
+        	<a href={% url "pessoas_clientes_visualizar" pessoa.id %}>Visualizar</a>
+      	</td>
+  		<td>
+        	<a href={% url "pessoas_clientes_editar" pessoa.id %}>Editar</a>
+      	</td>
+  		<td>
+        	<a href={% url "pessoas_clientes_excluir" pessoa.id %}>Excluir</a>
+      	</td>
+  	</tr>
+  {% endfor %}
+
+</table>
+{% endblock conteudo %}

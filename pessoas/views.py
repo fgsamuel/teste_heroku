@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import render
 from django.shortcuts import redirect
+from django.shortcuts import render
 
-from pessoas.models import *
-from pessoas.forms import *
-
+from pessoas.forms import ClienteForm
+from pessoas.models import Cliente
 
 
 def clientes(request):
@@ -13,10 +12,22 @@ def clientes(request):
 	context = {'pessoas': pessoas}
 	return render(request, 'pessoas/clientes/index.html', context)
 
-def clientes_editar(request, id):
+def clientes_inserir(request):
+	if request.method == 'POST':
+		form = ClienteForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect("pessoas_clientes")
+	
+	form = ClienteForm()
+	context = {'form' : form}
+	return render(request, 'pessoas/clientes/inserir.html', context)
+
+
+def clientes_editar(request, pessoaId):
 	# Tenta encontrar a pessoa com o id passado, se não tiver, coloca None, e na view, quando recebe none, fala que não encontrou o cliente
 	try:
-		pessoa = Cliente.objects.get(pk=id)
+		pessoa = Cliente.objects.get(pk=pessoaId)
 	except:
 		pessoa = None
 
@@ -24,7 +35,8 @@ def clientes_editar(request, id):
 		# para editar ele tem que receber a pessoa que está editando no parametro instance
 		form = ClienteForm(request.POST, instance=pessoa)
 		if form.is_valid():
-			novo_cliente = form.save()
+			form.save()
+			return redirect("pessoas_clientes")
 	else:
 		# inicia o form com os dados da pessoa buscada
 		form = ClienteForm(instance=pessoa)
@@ -35,5 +47,29 @@ def clientes_editar(request, id):
 		}
 	return render(request, 'pessoas/clientes/editar.html', context)
 
+def clientes_visualizar(request, pessoaId):
+	# Tenta encontrar a pessoa com o id passado, se não tiver, coloca None, e na view, quando recebe none, fala que não encontrou o cliente
+	try:
+		pessoa = Cliente.objects.get(pk=pessoaId)
+	except:
+		pessoa = None
+	
+	context = {'pessoa' : pessoa}
+	
+	return render(request, 'pessoas/clientes/visualizar.html', context)
+
+
+def clientes_excluir(request, pessoaId):
+	try:
+		pessoa = Cliente.objects.get(pk=pessoaId)
+	except:
+		pessoa = None
+	if request.method == 'POST':
+		pessoa.delete()
+		return redirect("pessoas_clientes")
+	else:
+		context = {'pessoa' : pessoa}
+		return render(request, 'pessoas/clientes/excluir.html', context)
+	
 def avaliadores(request):
 	return render(request, 'pessoas/avaliadores/index.html')
