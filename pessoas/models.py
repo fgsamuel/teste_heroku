@@ -5,7 +5,7 @@ from django.db import models
 # Classe abstrata para reunir todas informações comuns à pessoas
 class Pessoa(models.Model):
 	nome = models.CharField(max_length=200)
-	data_nascimento = models.DateField(blank=True)
+	data_nascimento = models.DateField(blank=True, null=True)
 	email = models.CharField(max_length=150, blank=True)
 	cep = models.CharField(max_length=8, blank=True)
 	numero = models.CharField(max_length=10, blank=True)
@@ -23,8 +23,7 @@ class Cliente(Pessoa):
 
 
 class Avaliador(Pessoa):
-	login = models.CharField(max_length=15)
-	senha = models.CharField(max_length=32)
+	pass
 
 
 class Telefone(models.Model):

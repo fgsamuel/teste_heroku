@@ -19,5 +19,10 @@ urlpatterns = [
     url(r'^clientes/excluir/(?P<pessoaId>[0-9]+)/$', pessoas_view.clientes_excluir, name="pessoas_clientes_excluir"),
 
 
-    url(r'^avaliadores/', pessoas_view.avaliadores, name="pessoas_avaliadores"),
+    #AVALIADORES
+    url(r'^avaliadores/$', pessoas_view.avaliadores, name="pessoas_avaliadores"),
+    url(r'^avaliadores/inserir/$', pessoas_view.avaliadores_inserir, name="pessoas_avaliadores_inserir"),
+    url(r'^avaliadores/editar/(?P<pessoaId>[0-9]+)/$', pessoas_view.avaliadores_editar, name="pessoas_avaliadores_editar"),
+    url(r'^avaliadores/visualizar/(?P<pessoaId>[0-9]+)/$', pessoas_view.avaliadores_visualizar, name="pessoas_avaliadores_visualizar"),
+    url(r'^avaliadores/excluir/(?P<pessoaId>[0-9]+)/$', pessoas_view.avaliadores_excluir, name="pessoas_avaliadores_excluir"),
 ]

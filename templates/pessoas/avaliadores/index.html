@@ -1,4 +1,41 @@
 {% extends "base.html" %}
 {% block conteudo %}
-	Conteúdo do index de avaliadores.
+	<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+</style>
+
+<a href={% url "pessoas_avaliadores_inserir" %}>Inserir novo Avaliador</a>
+
+<table style="width:80%">
+  <tr>
+    <th>ID</th>
+    <th>Nome</th>
+    <th>Visualizar</th>		
+    <th>Editar</th>
+    <th>Excluir</th>
+  </tr>
+
+  {% for pessoa in pessoas %}
+  	<tr>
+  		<td> {{ pessoa.id }} </td>
+  		<td> {{ pessoa.nome }} </td>
+  		<td>
+        	<a href={% url "pessoas_avaliadores_visualizar" pessoa.id %}>Visualizar</a>
+      	</td>
+  		<td>
+        	<a href={% url "pessoas_avaliadores_editar" pessoa.id %}>Editar</a>
+      	</td>
+  		<td>
+        	<a href={% url "pessoas_avaliadores_excluir" pessoa.id %}>Excluir</a>
+      	</td>
+  	</tr>
+  {% endfor %}
+
+</table>
 {% endblock conteudo %}
