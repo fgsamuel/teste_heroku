@@ -16,6 +16,7 @@ class Pessoa(models.Model):
 	# para não ser persistida no banco
 	class Meta:
 		abstract = True
+		ordering = ['nome']
 
 
 class Cliente(Pessoa):

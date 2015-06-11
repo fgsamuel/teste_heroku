@@ -1,0 +1,4 @@
+/* para sobrepor o do bootstrap que deixa a fonte branca */
+select{
+  color: #333
+}

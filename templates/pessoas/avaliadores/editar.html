@@ -2,7 +2,7 @@
 
 {% block conteudo %}
 	{% if pessoa == None %}
-		Nao foi encontrado nenhum fornecedor com o id informado
+		Nao foi encontrado nenhum avaliador com o id informado
 		{% else %}
 			<form action="." method="post"> {% csrf_token %}
 				{{ form.as_p }}

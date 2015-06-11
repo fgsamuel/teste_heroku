@@ -8,7 +8,15 @@ from pessoas.models import Cliente, Avaliador
 
 
 def clientes(request):
-	pessoas = Cliente.objects.all()
+	if request.method == 'POST':
+		busca = request.POST.get("busca", None)
+		if busca != None:
+			pessoas = Cliente.objects.filter(nome__contains=busca)
+		else:
+			pessoas = Cliente.objects.all()
+	else:
+		pessoas = Cliente.objects.all()
+		
 	context = {'pessoas': pessoas}
 	return render(request, 'pessoas/clientes/index.html', context)
 
@@ -67,7 +75,15 @@ def clientes_excluir(request, pessoaId):
 		return render(request, 'pessoas/clientes/excluir.html', context)
 	
 def avaliadores(request):
-	pessoas = Avaliador.objects.all()
+	if request.method == 'POST':
+		busca = request.POST.get("busca", None)
+		if busca != None:
+			pessoas = Avaliador.objects.filter(nome__contains=busca)
+		else:
+			pessoas = Avaliador.objects.all()
+	else:
+		pessoas = Avaliador.objects.all()
+		
 	context = {'pessoas': pessoas}
 	return render(request, 'pessoas/avaliadores/index.html', context)
 
