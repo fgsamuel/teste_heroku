@@ -3,6 +3,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 from pessoas import views as pessoas_view
+from avaliacoes import views as avaliacoes_view
 
 urlpatterns = [
     # Examples:
@@ -25,4 +26,7 @@ urlpatterns = [
     url(r'^avaliadores/editar/(?P<pessoaId>[0-9]+)/$', pessoas_view.avaliadores_editar, name="pessoas_avaliadores_editar"),
     url(r'^avaliadores/visualizar/(?P<pessoaId>[0-9]+)/$', pessoas_view.avaliadores_visualizar, name="pessoas_avaliadores_visualizar"),
     url(r'^avaliadores/excluir/(?P<pessoaId>[0-9]+)/$', pessoas_view.avaliadores_excluir, name="pessoas_avaliadores_excluir"),
+
+    #AVALIAÇÕES
+    url(r'^avaliacoes/$', avaliacoes_view.avaliacoes, name="avaliacoes"),
 ]
