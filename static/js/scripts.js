@@ -1,9 +1,10 @@
 $(function() {
 	carregaDatepicker();
+	//carregaTab();
 });
 
 function carregaDatepicker(){
-    //cria o datepicker com opção de mes e ano
+    //cria o datepicker com opï¿½ï¿½o de mes e ano
 	$( ".datepicker" ).datepicker({
         changeMonth: true,
         changeYear: true,
@@ -13,3 +14,8 @@ function carregaDatepicker(){
 	//retira a edicao do campo
 	$('.datepicker').attr('editable', false);
   }
+
+function carregaTab(){
+	$( ".tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
+    $( ".tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+}

@@ -1,9 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from django.forms import ModelForm, DateTimeInput
-from avaliacoes.models import Historico
+from django.forms import ModelForm
+from avaliacoes.models import Avaliacao, Historico, Anamnese
 
+class AvaliacaoForm(ModelForm):
+	class Meta:
+		model = Avaliacao
+		fields = '__all__'
+		
 class HistoricoForm(ModelForm):
 	class Meta:
 		model = Historico
-		fields = '__all__'
+		exclude = ('avaliacao',)
+
+class AnamneseForm(ModelForm):
+	class Meta:
+		model = Anamnese
+		exclude = ('avaliacao',)

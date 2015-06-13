@@ -9,6 +9,7 @@ class Avaliacao(models.Model):
 
 
 class Anamnese(models.Model):
+	avaliacao = models.OneToOneField(Avaliacao, primary_key=True)
 	hipertrofia = models.BooleanField()
 	condicionamento_fisico = models.BooleanField()
 	diminuicao_percentual_gordura = models.BooleanField()
@@ -18,25 +19,25 @@ class Anamnese(models.Model):
 	flexibilidade = models.BooleanField()
 	observacao = models.CharField(max_length=300)
 
-class AtividadeFisica(models.Model):
+#Classe abstrata para heran�a de classes que tenham apenas no nome
+class SimpleClass(models.Model):
 	nome = models.CharField(max_length=50)
 	def __unicode__(self):
 		return self.nome
+	class Meta:
+		abstract = True
 
-class Doenca(models.Model):
-	nome = models.CharField(max_length=50)
-	def __unicode__(self):
-		return self.nome
+class AtividadeFisica(SimpleClass):
+	pass
 
-class Cirurgia(models.Model):
-	nome = models.CharField(max_length=50)
-	def __unicode__(self):
-		return self.nome
+class Doenca(SimpleClass):
+	pass
 
-class Medicacao(models.Model):
-	nome = models.CharField(max_length=50)
-	def __unicode__(self):
-		return self.nome
+class Cirurgia(SimpleClass):
+	pass
+
+class Medicacao(SimpleClass):
+	pass
 
 class Historico(models.Model):
 	atividades_fisicas = models.ManyToManyField(AtividadeFisica)

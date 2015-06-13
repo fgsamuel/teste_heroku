@@ -5,7 +5,7 @@
 
 <head>
 
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -62,13 +62,13 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="{% url "pessoas_clientes" %}">Clientes</a>
+                        <a href={% url "pessoas_clientes" %}>Clientes</a>
                     </li>
                     <li>
-                        <a href="{% url "pessoas_avaliadores" %}">Avaliadores</a>
+                        <a href={% url "pessoas_avaliadores" %}>Avaliadores</a>
                     </li>
                     <li>
-                        <a href="#">Avaliações</a>
+                        <a href={% url "avaliacoes" %}>Avaliações</a>
                     </li>
                 </ul>
             </div>
