@@ -1,6 +1,7 @@
 $(function() {
 	carregaDatepicker();
-	//carregaTab();
+	carregaTab();
+  carregaSelect2();
 });
 
 function carregaDatepicker(){
@@ -18,4 +19,9 @@ function carregaDatepicker(){
 function carregaTab(){
 	$( ".tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
     $( ".tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+}
+
+//Configura o componente chosen
+function carregaSelect2(){
+  $(".select2").select2();
 }

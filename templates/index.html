@@ -2,27 +2,44 @@
 
 {% block conteudo %}
 <form action="." method="post"> {% csrf_token %}
+ 
+
     <div class="tabs">
   <ul>
     <li><a href="#tabs-1">Geral</a></li>
     <li><a href="#tabs-2">Anamnese</a></li>
     <li><a href="#tabs-3">Histórico</a></li>
+    <li><a href="#tabs-4">Antropometria</a></li>
   </ul>
   <div id="tabs-1">
     <h2>Informações gerais</h2>
     	{{avaliacaoForm.as_p}}
   </div>
+  
   <div id="tabs-2">
     <h2>Anamnese</h2>
     {{anamneseForm.as_p}}
   </div>
+  
   <div id="tabs-3">
     <h2>Histórico</h2>
-    {% for field in historicoForm.visible_fields %}
-    	<p> {{field.label}} </p>
-    	<p> {{field}} </p>
-    {% endfor %}
+    {{historicoForm.as_p}}
+
+    <h2>PAR-Q</h2>
+    {{parqForm.as_p}}
+
+    <h2>Dados Vitais</h2>
+    {{dadosVitaisForm.as_p}}
   </div>
+
+  <div id="tabs-4">
+    <h2>Circunferências</h2>
+      {{circunferenciasForm.as_p}}
+
+      <h2>Peso e Altura</h2>
+      {{pesoAlturaForm.as_p}}
+  </div>
+
 </div>
 <input type="submit" value="Salvar" />
 				<input type="submit" value="Cancelar" onclick="window.location={% url 'avaliacoes' %}; return false" />

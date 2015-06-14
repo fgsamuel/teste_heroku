@@ -1,9 +1,9 @@
-from distutils.sysconfig import PREFIX
+# -*- coding: utf-8 -*-
 
 from django.shortcuts import render, redirect
-from django.template.smartif import prefix
 
-from avaliacoes.forms import AvaliacaoForm, HistoricoForm, AnamneseForm
+from avaliacoes.forms import AvaliacaoForm, HistoricoForm, AnamneseForm, FormularioPARQForm, DadosVitaisForm,\
+	MedicacaoForm, CircunferenciasForm, PesoAlturaForm
 
 
 def avaliacoes(request):
@@ -11,36 +11,66 @@ def avaliacoes(request):
 			avaliacaoForm = AvaliacaoForm(request.POST, prefix="avaliacao")
 			historicoForm = HistoricoForm(request.POST, prefix="historico")
 			anamneseForm = AnamneseForm(request.POST, prefix="anamnese")
-			
-			if avaliacaoForm.is_valid():
-				print("avaliacao valido")
-			else:
-				print("avaliacao invalido")
-			if historicoForm.is_valid():
-				print("historico valido")
-			else:
-				print("historico invalido")
-			if anamneseForm.is_valid():
-				print("anamnese valido")
-			else:
-				print("anamnese invalido")
-			if avaliacaoForm.is_valid() and historicoForm.is_valid() and anamneseForm.is_valid(): # All validation rules pass
-				print("all validation passed")
-				avaliacao = avaliacaoForm.save()
-				historicoForm.cleaned_data["avaliacao"] = avaliacao
-				historicoForm.save()
-				anamneseForm.cleaned_data["avaliacao"] = avaliacao
-				anamneseForm.save()
-				return redirect("pessoas_clientes")
-			else:
-				print("failed")
+			parqForm = FormularioPARQForm(request.POST, prefix="parq")
+			dadosVitaisForm = DadosVitaisForm(request.POST, prefix="dadosvitais")
+			medicacaoForm = MedicacaoForm(request.POST, prefix="medicacao")
+			circunferenciasForm = CircunferenciasForm(request.POST, prefix="circunferencias")
+			pesoAlturaForm = PesoAlturaForm(request.POST, prefix="pesoAltura")
 
-	avaliacaoForm = AvaliacaoForm(prefix="avaliacao")
-	historicoForm = HistoricoForm(prefix="historico")
-	anamneseForm = AnamneseForm(prefix="anamnese")
+			
+			if avaliacaoForm.is_valid() and historicoForm.is_valid() and anamneseForm.is_valid() and parqForm.is_valid() and dadosVitaisForm.is_valid() and medicacaoForm.is_valid() and circunferenciasForm.is_valid() and pesoAlturaForm.is_valid():
+				
+				#salva a avaliação no banco para poder salvar os filhos
+				avaliacao = avaliacaoForm.save()
+				
+				#forma de salar relacionamentos many-to-many
+				historico = historicoForm.save(commit=False)
+				historico.avaliacao = avaliacao
+				historico.save()
+				historicoForm.save_m2m()
+				
+				#forma de salar relacionamentos many-to-many
+				anamnese = anamneseForm.save(commit=False)
+				anamnese.avaliacao = avaliacao
+				anamnese.save()
+				anamneseForm.save_m2m()
+				
+				#forma de salar relacionamentos many-to-many
+				parq = parqForm.save(commit=False)
+				parq.avaliacao = avaliacao
+				parq.save()
+				parqForm.save_m2m()
+				
+				#forma de salar relacionamentos many-to-many
+				dadosVitais = dadosVitaisForm.save(commit=False)
+				dadosVitais.avaliacao = avaliacao
+				dadosVitais.save()
+				dadosVitaisForm.save_m2m()
+				
+				#forma de salar relacionamentos many-to-many
+				medicacao = medicacaoForm.save(commit=False)
+				medicacao.avaliacao = avaliacao
+				medicacao.save()
+				medicacaoForm.save_m2m()
+
+				return redirect("pessoas_clientes")
+	else:
+		avaliacaoForm = AvaliacaoForm(prefix="avaliacao")
+		historicoForm = HistoricoForm(prefix="historico")
+		anamneseForm = AnamneseForm(prefix="anamnese")
+		parqForm = FormularioPARQForm(prefix="parq")
+		dadosVitaisForm = DadosVitaisForm(prefix="dadosvitais")
+		medicacaoForm = MedicacaoForm(prefix="medicacao")
+		circunferenciasForm = CircunferenciasForm(prefix="circunferencias")
+		pesoAlturaForm = PesoAlturaForm(prefix="pesoAltura")
 	context = {
 		'avaliacaoForm' : avaliacaoForm,
 		'historicoForm' : historicoForm,
 		'anamneseForm' : anamneseForm,
+		'parqForm' : parqForm,
+		'dadosVitaisForm' : dadosVitaisForm,
+		'medicacaoForm' : medicacaoForm,
+		'circunferenciasForm' : circunferenciasForm,
+		'pesoAlturaForm' : pesoAlturaForm,
 		}
 	return render(request, 'index.html', context)
