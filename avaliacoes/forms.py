@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.forms import ModelForm, DateTimeInput
-from avaliacoes.models import Avaliacao, Historico, Anamnese, FormularioPARQ, DadosVitais, Medicacao,\
+from avaliacoes.models import Avaliacao, Historico, Anamnese, FormularioPARQ, DadosVitais, \
 	Circunferencias, PesoAltura
 from django.forms.widgets import SelectMultiple
 
@@ -72,11 +72,6 @@ class FormularioPARQForm(ModelForm):
 class DadosVitaisForm(ModelForm):
 	class Meta:
 		model = DadosVitais
-		exclude = ('avaliacao',)
-
-class MedicacaoForm(ModelForm):
-	class Meta:
-		model = Medicacao
 		exclude = ('avaliacao',)
 
 class CircunferenciasForm(ModelForm):

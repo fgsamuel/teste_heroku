@@ -3,7 +3,8 @@
 from django.shortcuts import render, redirect
 
 from avaliacoes.forms import AvaliacaoForm, HistoricoForm, AnamneseForm, FormularioPARQForm, DadosVitaisForm,\
-	MedicacaoForm, CircunferenciasForm, PesoAlturaForm
+	CircunferenciasForm, PesoAlturaForm
+from avaliacoes.models import Antropometria
 
 
 def avaliacoes(request):
@@ -13,46 +14,44 @@ def avaliacoes(request):
 			anamneseForm = AnamneseForm(request.POST, prefix="anamnese")
 			parqForm = FormularioPARQForm(request.POST, prefix="parq")
 			dadosVitaisForm = DadosVitaisForm(request.POST, prefix="dadosvitais")
-			medicacaoForm = MedicacaoForm(request.POST, prefix="medicacao")
 			circunferenciasForm = CircunferenciasForm(request.POST, prefix="circunferencias")
 			pesoAlturaForm = PesoAlturaForm(request.POST, prefix="pesoAltura")
 
 			
-			if avaliacaoForm.is_valid() and historicoForm.is_valid() and anamneseForm.is_valid() and parqForm.is_valid() and dadosVitaisForm.is_valid() and medicacaoForm.is_valid() and circunferenciasForm.is_valid() and pesoAlturaForm.is_valid():
-				
+			if avaliacaoForm.is_valid() and historicoForm.is_valid() and anamneseForm.is_valid() and parqForm.is_valid() and dadosVitaisForm.is_valid() and circunferenciasForm.is_valid() and pesoAlturaForm.is_valid():
 				#salva a avaliação no banco para poder salvar os filhos
 				avaliacao = avaliacaoForm.save()
-				
+
 				#forma de salar relacionamentos many-to-many
 				historico = historicoForm.save(commit=False)
 				historico.avaliacao = avaliacao
 				historico.save()
 				historicoForm.save_m2m()
-				
-				#forma de salar relacionamentos many-to-many
+
 				anamnese = anamneseForm.save(commit=False)
 				anamnese.avaliacao = avaliacao
 				anamnese.save()
-				anamneseForm.save_m2m()
-				
-				#forma de salar relacionamentos many-to-many
+
 				parq = parqForm.save(commit=False)
 				parq.avaliacao = avaliacao
 				parq.save()
-				parqForm.save_m2m()
-				
-				#forma de salar relacionamentos many-to-many
+
 				dadosVitais = dadosVitaisForm.save(commit=False)
 				dadosVitais.avaliacao = avaliacao
 				dadosVitais.save()
-				dadosVitaisForm.save_m2m()
-				
-				#forma de salar relacionamentos many-to-many
-				medicacao = medicacaoForm.save(commit=False)
-				medicacao.avaliacao = avaliacao
-				medicacao.save()
-				medicacaoForm.save_m2m()
 
+				antropometria = Antropometria()
+				antropometria.avaliacao = avaliacao
+				antropometria.save()
+
+				circunferencias = circunferenciasForm.save(commit=False)
+				circunferencias.antropometria = antropometria
+				circunferencias.save()
+
+				pesoAltura = pesoAlturaForm.save(commit=False)
+				pesoAltura.antropometria = antropometria
+				pesoAltura.save()
+				
 				return redirect("pessoas_clientes")
 	else:
 		avaliacaoForm = AvaliacaoForm(prefix="avaliacao")
@@ -60,7 +59,6 @@ def avaliacoes(request):
 		anamneseForm = AnamneseForm(prefix="anamnese")
 		parqForm = FormularioPARQForm(prefix="parq")
 		dadosVitaisForm = DadosVitaisForm(prefix="dadosvitais")
-		medicacaoForm = MedicacaoForm(prefix="medicacao")
 		circunferenciasForm = CircunferenciasForm(prefix="circunferencias")
 		pesoAlturaForm = PesoAlturaForm(prefix="pesoAltura")
 	context = {
@@ -69,7 +67,6 @@ def avaliacoes(request):
 		'anamneseForm' : anamneseForm,
 		'parqForm' : parqForm,
 		'dadosVitaisForm' : dadosVitaisForm,
-		'medicacaoForm' : medicacaoForm,
 		'circunferenciasForm' : circunferenciasForm,
 		'pesoAlturaForm' : pesoAlturaForm,
 		}

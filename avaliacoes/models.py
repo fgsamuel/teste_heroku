@@ -53,13 +53,13 @@ class Historico(models.Model):
 
 class FormularioPARQ(models.Model):
 	avaliacao = models.OneToOneField(Avaliacao, primary_key=True)
-	p1 = models.NullBooleanField()
-	p2 = models.NullBooleanField()
-	p3 = models.NullBooleanField()
-	p4 = models.NullBooleanField()
-	p5 = models.NullBooleanField()
-	p6 = models.NullBooleanField()
-	p7 = models.NullBooleanField()
+	p1 = models.NullBooleanField(default=False)
+	p2 = models.NullBooleanField(default=False)
+	p3 = models.NullBooleanField(default=False)
+	p4 = models.NullBooleanField(default=False)
+	p5 = models.NullBooleanField(default=False)
+	p6 = models.NullBooleanField(default=False)
+	p7 = models.NullBooleanField(default=False)
 
 
 class DadosVitais(models.Model):
