@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django.forms import ModelForm, DateTimeInput
-from avaliacoes.models import Avaliacao, Historico, Anamnese, FormularioPARQ, DadosVitais, \
-	Circunferencias, PesoAltura
+from avaliacoes.models import Avaliacao, Historico, FormularioPARQ, DadosVitais, Circunferencias, PesoAltura,\
+	Plicometria
 from django.forms.widgets import SelectMultiple
 
 class AvaliacaoForm(ModelForm):
@@ -48,11 +48,11 @@ class HistoricoForm(ModelForm):
 										'data-placeholder': 'Selecione as cirurgias'
 									}),
 	        		}
-
-class AnamneseForm(ModelForm):
-	class Meta:
-		model = Anamnese
-		exclude = ('avaliacao',)
+	def is_empty(self):
+		if(self.cleaned_data.get("atividades_fisicas")):
+			print("Tem atividades")
+		else:
+			print("Não tem atividades físicas")
 
 class FormularioPARQForm(ModelForm):
 	class Meta:
@@ -77,9 +77,14 @@ class DadosVitaisForm(ModelForm):
 class CircunferenciasForm(ModelForm):
 	class Meta:
 		model = Circunferencias
-		exclude = ('antropometria',)
+		exclude = ('avaliacao',)
 
 class PesoAlturaForm(ModelForm):
 	class Meta:
 		model = PesoAltura
-		exclude = ('antropometria',)
+		exclude = ('avaliacao',)
+
+class Plicometria(ModelForm):
+	class Meta:
+		model = Plicometria
+		exclude = ('avaliacao',)

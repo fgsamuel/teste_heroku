@@ -3,25 +3,9 @@
 from django.db import models
 from pessoas.models import Avaliador, Cliente
 
-class Avaliacao(models.Model):
-	cliente = models.ForeignKey(Cliente)
-	avaliador = models.ForeignKey(Avaliador)
-	data = models.DateField()
-	observacao = models.CharField(max_length=300, blank=True)
+#-------------- Classes básicas do sistema------------------
 
-
-class Anamnese(models.Model):
-	avaliacao = models.OneToOneField(Avaliacao, primary_key=True)
-	hipertrofia = models.BooleanField(blank=True)
-	condicionamento_fisico = models.BooleanField(blank=True)
-	diminuicao_percentual_gordura = models.BooleanField(blank=True)
-	melhorar_postura = models.BooleanField(blank=True)
-	enrijecimento = models.BooleanField(blank=True)
-	treino_forca = models.BooleanField(blank=True)
-	flexibilidade = models.BooleanField(blank=True)
-	observacao = models.CharField(max_length=300, blank=True)
-
-#Classe abstrata para heran�a de classes que tenham apenas no nome
+#Classe abstrata para herança de classes que tenham apenas no nome
 class SimpleClass(models.Model):
 	nome = models.CharField(max_length=50)
 	def __unicode__(self):
@@ -41,6 +25,27 @@ class Cirurgia(SimpleClass):
 class Medicacao(SimpleClass):
 	pass
 
+
+#Avaliação é a classe principal, através dela deve ser possível buscar todas as outras pelos relacionamentos
+class Avaliacao(models.Model):
+	cliente = models.ForeignKey(Cliente)
+	avaliador = models.ForeignKey(Avaliador)
+	data = models.DateField()
+	observacao = models.CharField(max_length=300, blank=True)
+
+
+#----- as classes Objetivos e Historico fazem parte da Anamnese
+class Objetivos(models.Model):
+	avaliacao = models.OneToOneField(Avaliacao, primary_key=True)
+	hipertrofia = models.BooleanField(blank=True)
+	condicionamento_fisico = models.BooleanField(blank=True)
+	diminuicao_percentual_gordura = models.BooleanField(blank=True)
+	melhorar_postura = models.BooleanField(blank=True)
+	enrijecimento = models.BooleanField(blank=True)
+	treino_forca = models.BooleanField(blank=True)
+	flexibilidade = models.BooleanField(blank=True)
+	observacao = models.CharField(max_length=300, blank=True)
+
 class Historico(models.Model):
 	avaliacao = models.OneToOneField(Avaliacao, primary_key=True)
 	atividades_fisicas = models.ManyToManyField(AtividadeFisica, blank=True)
@@ -49,6 +54,7 @@ class Historico(models.Model):
 	cirurgias = models.ManyToManyField(Cirurgia, blank=True)
 	medicacoes = models.ManyToManyField(Medicacao, blank=True)
 	observacao = models.CharField(max_length=300, blank=True)
+
 
 
 class FormularioPARQ(models.Model):
@@ -60,6 +66,7 @@ class FormularioPARQ(models.Model):
 	p5 = models.NullBooleanField(default=False)
 	p6 = models.NullBooleanField(default=False)
 	p7 = models.NullBooleanField(default=False)
+	observacao = models.CharField(max_length=300, blank=True)
 
 
 class DadosVitais(models.Model):
@@ -67,15 +74,11 @@ class DadosVitais(models.Model):
 	frequencia_cardiaca = models.IntegerField(null=True, blank=True)
 	pa_sistole = models.IntegerField(null=True, blank=True)
 	pa_diastole = models.IntegerField(null=True, blank=True)
-
-
-class Antropometria(models.Model):
-	avaliacao = models.OneToOneField(Avaliacao, primary_key=True)
 	observacao = models.CharField(max_length=300, blank=True)
-
+	
 
 class Circunferencias(models.Model):
-	antropometria = models.OneToOneField(Antropometria, primary_key=True)
+	avaliacao = models.OneToOneField(Avaliacao, primary_key=True)
 	pescoco = models.IntegerField(null=True, blank=True)
 	ombros = models.IntegerField(null=True, blank=True)
 	torax_relaxado = models.IntegerField(null=True, blank=True)
@@ -91,8 +94,22 @@ class Circunferencias(models.Model):
 	coxa_esquerda = models.IntegerField(null=True, blank=True)
 	panturrilha_direita = models.IntegerField(null=True, blank=True)
 	panturrilha_esquerda = models.IntegerField(null=True, blank=True)
+	observacao = models.CharField(max_length=300, blank=True)
 
 class PesoAltura(models.Model):
-	antropometria = models.OneToOneField(Antropometria, primary_key=True)
+	avaliacao = models.OneToOneField(Avaliacao, primary_key=True)
 	peso = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
 	altura = models.IntegerField(blank=True, null=True)
+	observacao = models.CharField(max_length=300, blank=True)
+
+class Plicometria(models.Model):
+	subscapular = models.IntegerField(null=True, blank=True)
+	triceps_braquial = models.IntegerField(null=True, blank=True)
+	peitoral = models.IntegerField(null=True, blank=True)
+	axilar_media = models.IntegerField(null=True, blank=True)
+	supra_iliaca = models.IntegerField(null=True, blank=True)
+	abdominal = models.IntegerField(null=True, blank=True)
+	coxa = models.IntegerField(null=True, blank=True)
+	panturrilha = models.IntegerField(null=True, blank=True)
+	biciptal = models.IntegerField(null=True, blank=True)
+	observacao = models.CharField(max_length=300, blank=True)
