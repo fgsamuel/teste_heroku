@@ -6,3 +6,5 @@ encoding//fisioProject/urls.py=utf-8
 encoding//pessoas/forms.py=utf-8
 encoding//pessoas/models.py=utf-8
 encoding//pessoas/views.py=utf-8
+encoding//pessoas/views_avaliadores.py=utf-8
+encoding//pessoas/views_clientes.py=utf-8

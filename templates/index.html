@@ -3,55 +3,65 @@
 {% block conteudo %}
 <form action="." method="post"> {% csrf_token %}
  
-
     <div class="tabs">
   <ul>
-    <li><a href="#tabs-1">Geral</a></li>
-    <li><a href="#tabs-2">Anamnese</a></li>
-    <li><a href="#tabs-3">Histórico</a></li>
-    <li><a href="#tabs-4">Antropometria</a></li>
+    <li><a href="#geral">Geral</a></li>
+    <li><a href="#anamnese">Anamnese</a></li>
+    <li><a href="#antropometria">Antropometria</a></li>
   </ul>
-  <div id="tabs-1">
+  <div id="geral">
     <h2>Informações gerais</h2>
     	{{avaliacaoForm.as_p}}
   </div>
   
-  <div id="tabs-2">
+  <div id="anamnese">
     <h2>Anamnese</h2>
     
     <div class="tabs">
       <ul>
-        <li><a href="#hist">Geral</a></li>
-        <li><a href="#parq">Anamnese</a></li>
+        <li><a href="#objetivos">Objetivos</a></li>
+        <li><a href="#historico">Histórico</a></li>
+        <li><a href="#parq">Formulário PAR-Q</a></li>
+        <li><a href="#dadosVitais">Dados Vitais</a></li>
       </ul>
-      <div id="hist">
-      Oláa
+      <div id="objetivos">
+        {{ objetivosForm.as_p }}
       </div>
-      <div id="parq">
-      Parq
+      <div id="historico">
+        {{ historicoForm.as_p }}
+      </div>
+       <div id="parq">
+        {{ parqForm.as_p }}
+      </div>
+       <div id="dadosVitais">
+        {{ dadosVitaisForm.as_p }}
       </div>
       
     </div>
-    {{anamneseForm.as_p}}
-  </div>
-  
-  <div id="tabs-3">
-    <h2>Histórico</h2>
-    {{historicoForm.as_p}}
 
-    <h2>PAR-Q</h2>
-    {{parqForm.as_p}}
-
-    <h2>Dados Vitais</h2>
-    {{dadosVitaisForm.as_p}}
   </div>
 
-  <div id="tabs-4">
-    <h2>Circunferências</h2>
-      {{circunferenciasForm.as_p}}
+  <div id="antropometria">
+    <h2>Antropometria</h2>
+      
+      <div class="tabs">
+      <ul>
+        <li><a href="#circunferencias">Circunferências</a></li>
+        <li><a href="#pesoAltura">Peso e Altura</a></li>
+        <li><a href="#plicometria">Plicometria</a></li>
+      </ul>
+      <div id="circunferencias">
+        {{ circunferenciasForm.as_p }}
+      </div>
+      <div id="pesoAltura">
+        {{ pesoAlturaForm.as_p }}
+      </div>
+       <div id="plicometria">
+        {{ plicometriaForm.as_p }}
+      </div>
+      
+    </div>
 
-      <h2>Peso e Altura</h2>
-      {{pesoAlturaForm.as_p}}
   </div>
 
 </div>

@@ -2,7 +2,7 @@
 
 from django.forms import ModelForm, DateTimeInput
 from avaliacoes.models import Avaliacao, Historico, FormularioPARQ, DadosVitais, Circunferencias, PesoAltura,\
-	Plicometria
+	Plicometria, Objetivos
 from django.forms.widgets import SelectMultiple
 
 class AvaliacaoForm(ModelForm):
@@ -16,6 +16,13 @@ class AvaliacaoForm(ModelForm):
 										'editable' : 'false'
 									}),
 	        		}
+
+class ObjetivosForm(ModelForm):
+	class Meta:
+		model = Objetivos
+		exclude = ('avaliacao',)
+	def is_empty(self):
+		return is_empty(self)
 		
 class HistoricoForm(ModelForm):
 	class Meta:
@@ -49,10 +56,7 @@ class HistoricoForm(ModelForm):
 									}),
 	        		}
 	def is_empty(self):
-		if(self.cleaned_data.get("atividades_fisicas")):
-			print("Tem atividades")
-		else:
-			print("Não tem atividades físicas")
+		return is_empty(self)
 
 class FormularioPARQForm(ModelForm):
 	class Meta:
@@ -67,24 +71,58 @@ class FormularioPARQForm(ModelForm):
 				'p6' : '6 - Algum médico já lhe prescreveu medicamento para pressão arterial ou para o coração? ',
 				'p7' : '7 - Você tem conhecimento, por informação médica ou pela própria experiência, de algum motivo que poderia impedí-lo de participar de atividades fisicas sem supervisão médica? ',
         }
+	def is_empty(self):
+		return is_empty(self)
 
 
 class DadosVitaisForm(ModelForm):
 	class Meta:
 		model = DadosVitais
 		exclude = ('avaliacao',)
+	def is_empty(self):
+		return is_empty(self)
 
 class CircunferenciasForm(ModelForm):
 	class Meta:
 		model = Circunferencias
 		exclude = ('avaliacao',)
+	def is_empty(self):
+		return is_empty(self)
 
 class PesoAlturaForm(ModelForm):
 	class Meta:
 		model = PesoAltura
 		exclude = ('avaliacao',)
+	def is_empty(self):
+		return is_empty(self)
 
-class Plicometria(ModelForm):
+class PlicometriaForm(ModelForm):
 	class Meta:
 		model = Plicometria
 		exclude = ('avaliacao',)
+	def is_empty(self):
+		return is_empty(self)
+		
+'''
+Este método recebe um form e o valida
+após isso, ele pega o conteúdo deste form,
+percorre tupla por tupla.
+Se todoas estiverem vazias, retorna true
+se pelo moenos uma estiver preenchida, retorna false
+Se o form não passar na validação, retorna none.
+'''
+		
+def is_empty(form):
+	if form.is_valid():
+		data = form.cleaned_data
+		for k in data.items():
+			if k[1]:
+				return False
+		return True
+	else:
+		return None
+	
+	
+	
+	
+	
