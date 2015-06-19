@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import render, redirect
-
-from avaliacoes.forms import AvaliacaoForm, HistoricoForm, FormularioPARQForm, DadosVitaisForm,\
+from avaliacoes.forms import AvaliacaoForm, HistoricoForm, FormularioPARQForm, DadosVitaisForm, \
 	CircunferenciasForm, PesoAlturaForm, PlicometriaForm, ObjetivosForm
+from views_doencas import *
+from views_atividades_fisicas import *
+from views_cirurgias import *
 
 
 def avaliacoes(request):

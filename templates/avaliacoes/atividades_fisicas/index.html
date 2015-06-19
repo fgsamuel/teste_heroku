@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block conteudo %}
+	<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+</style>
+
+<h1>Atividades Físicas</h1>
+
+<a class="btn btn-default btn-sm" href={% url "atividades_fisicas_inserir" %}>
+	Inserir nova atividade físicas
+</a>
+
+<br /><br />
+<form class="navbar-form navbar-left" role="search" method="post" action".">{% csrf_token %}
+  <div class="form-group">
+    <input id="id_busca" name="busca" type="text" class="form-control" placeholder="Digite o nome da atividade">
+  </div>
+  <button type="submit" class="btn btn-default">Buscar</button>
+</form>
+{% if atividades_fisicas %}
+	<table style="width:80%">
+	  <tr>
+	    <th>ID</th>
+	    <th>Nome</th>
+	    <th>Editar</th>
+	    <th>Excluir</th>
+	  </tr>
+		
+		{% for atividade in atividades_fisicas %}
+		  	<tr>
+		  		<td> {{ atividade.id }} </td>
+		  		<td> {{ atividade.nome }} </td>
+		  		<td>
+		        	<a class="btn btn-default btn-xs" href={% url "atividades_fisicas_editar" atividade.id %}>
+		        		<span class="glyphicon glyphicon-pencil" aria-hidden="true" />
+		        	</a>
+		      	</td>
+		  		<td>
+		        	<a class="btn btn-default btn-xs" href={% url "atividades_fisicas_excluir" atividade.id %}>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true" />
+					</a>
+		      	</td>
+	  		</tr>
+	  		{% endfor %}
+	</table>
+{% else %}
+			<br /><br />
+  			Nenhum registro encontrado.
+	{% endif %}
+{% endblock conteudo %}

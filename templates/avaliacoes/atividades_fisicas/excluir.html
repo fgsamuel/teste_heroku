@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+	Tem certeza que deseja excluir o registro
+	<p>
+		{{atividade_fisica.nome}}
+	</p>
+
+	<form action="." method="post"> {% csrf_token %}
+		<input type="submit" value="Excluir" />
+		<input type="submit" value="Cancelar" onclick="window.location={% url 'atividades_fisicas_listar' %}; return false" />
+	</form>
+{% endblock conteudo %}

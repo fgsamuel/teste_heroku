@@ -9,7 +9,7 @@ def avaliadores(request):
     if request.method == 'POST':
         busca = request.POST.get("busca", None)
         if busca != None:
-            pessoas = Avaliador.objects.filter(nome__contains=busca)
+            pessoas = Avaliador.objects.filter(nome__icontains=busca)
         else:
             pessoas = Avaliador.objects.all()
     else:

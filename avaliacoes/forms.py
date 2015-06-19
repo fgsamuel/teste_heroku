@@ -2,7 +2,7 @@
 
 from django.forms import ModelForm, DateTimeInput
 from avaliacoes.models import Avaliacao, Historico, FormularioPARQ, DadosVitais, Circunferencias, PesoAltura,\
-	Plicometria, Objetivos
+	Plicometria, Objetivos, Doenca, AtividadeFisica, Cirurgia
 from django.forms.widgets import SelectMultiple
 
 class AvaliacaoForm(ModelForm):
@@ -121,6 +121,23 @@ def is_empty(form):
 		return True
 	else:
 		return None
+
+
+
+class DoencaForm(ModelForm):
+	class Meta:
+		model = Doenca
+		fields = '__all__'
+
+class AtividadeFisicaForm(ModelForm):
+	class Meta:
+		model = AtividadeFisica
+		fields = '__all__'
+		
+class CirurgiaForm(ModelForm):
+	class Meta:
+		model = Cirurgia
+		fields = '__all__'
 	
 	
 	

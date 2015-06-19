@@ -9,7 +9,7 @@ def clientes(request):
 	if request.method == 'POST':
 		busca = request.POST.get("busca", None)
 		if busca != None:
-			pessoas = Cliente.objects.filter(nome__contains=busca)
+			pessoas = Cliente.objects.filter(nome__icontains=busca)
 		else:
 			pessoas = Cliente.objects.all()
 	else:

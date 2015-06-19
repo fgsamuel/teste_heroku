@@ -29,4 +29,19 @@ urlpatterns = [
 
     #AVALIAÇÕES
     url(r'^avaliacoes/$', avaliacoes_view.avaliacoes, name="avaliacoes"),
+
+    url(r'^doencas/$', avaliacoes_view.doencas_listar, name="doencas_listar"),
+    url(r'^doencas/inserir/$', avaliacoes_view.doencas_inserir, name="doencas_inserir"),
+    url(r'^doencas/editar/(?P<pk>[0-9]+)/$', avaliacoes_view.doencas_editar, name="doencas_editar"),
+    url(r'^doencas/excluir/(?P<pk>[0-9]+)/$', avaliacoes_view.doencas_excluir, name="doencas_excluir"),
+    
+    url(r'^atividades_fisicas/$', avaliacoes_view.atividades_fisicas_listar, name="atividades_fisicas_listar"),
+    url(r'^atividades_fisicas/inserir/$', avaliacoes_view.atividades_fisicas_inserir, name="atividades_fisicas_inserir"),
+    url(r'^atividades_fisicas/editar/(?P<pk>[0-9]+)/$', avaliacoes_view.atividades_fisicas_editar, name="atividades_fisicas_editar"),
+    url(r'^atividades_fisicas/excluir/(?P<pk>[0-9]+)/$', avaliacoes_view.atividades_fisicas_excluir, name="atividades_fisicas_excluir"),
+    
+    url(r'^cirurgias/$', avaliacoes_view.cirurgias_listar, name="cirurgias_listar"),
+    url(r'^cirurgias/inserir/$', avaliacoes_view.cirurgias_inserir, name="cirurgias_inserir"),
+    url(r'^cirurgias/editar/(?P<pk>[0-9]+)/$', avaliacoes_view.cirurgias_editar, name="cirurgias_editar"),
+    url(r'^cirurgias/excluir/(?P<pk>[0-9]+)/$', avaliacoes_view.cirurgias_excluir, name="cirurgias_excluir"),
 ]
