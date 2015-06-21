@@ -44,4 +44,7 @@ urlpatterns = [
     url(r'^cirurgias/inserir/$', avaliacoes_view.cirurgias_inserir, name="cirurgias_inserir"),
     url(r'^cirurgias/editar/(?P<pk>[0-9]+)/$', avaliacoes_view.cirurgias_editar, name="cirurgias_editar"),
     url(r'^cirurgias/excluir/(?P<pk>[0-9]+)/$', avaliacoes_view.cirurgias_excluir, name="cirurgias_excluir"),
+
+
+    url(r'^teste/$', avaliacoes_view.teste, name="teste"),
 ]

@@ -1,11 +1,44 @@
 # -*- coding: utf-8 -*-
 
+import json
+
+from django.http.response import HttpResponse
+
 from avaliacoes.forms import AvaliacaoForm, HistoricoForm, FormularioPARQForm, DadosVitaisForm, \
-	CircunferenciasForm, PesoAlturaForm, PlicometriaForm, ObjetivosForm
-from views_doencas import *
+	CircunferenciasForm, PesoAlturaForm, PlicometriaForm, ObjetivosForm, DoencaForm
 from views_atividades_fisicas import *
 from views_cirurgias import *
+from views_doencas import *
 
+
+def teste(request):
+	if request.method == 'POST':
+		print("method post")
+		doencaForm = DoencaForm(request.POST, prefix="doenca")
+		if doencaForm.is_valid():
+			print("Valido")
+			html = str(render(request, 'teste2.html', {'doencaForm': doencaForm}, content_type=""))
+			index = html.find('<')
+			html = html[index:]
+			print(html)
+			data = {'html':html, 'message':"Mensagem qualquer"}
+			print(data)
+			data2 = json.dumps(data)
+			print(data2)
+			return HttpResponse(data2, content_type="application/json")
+		else:
+			print("Invalido")
+			html = str(render(request, 'teste2.html', {'doencaForm': doencaForm}))
+			index = html.find('<')
+			html = html[index:]
+			data = {'html':html, 'message':"Mensagem qualquer"}
+			print(data)
+			data2 = json.dumps(data)
+			print(data2)
+			return HttpResponse(data2, content_type="application/json")
+	doencaForm = DoencaForm(prefix="doenca")
+	historicoForm = HistoricoForm(prefix="historico")
+	return render(request, 'teste1.html', {'doencaForm': doencaForm, 'historicoForm':historicoForm})
 
 def avaliacoes(request):
 	if request.method == 'POST': # If the form has been submitted...
@@ -17,7 +50,6 @@ def avaliacoes(request):
 			pesoAlturaForm = PesoAlturaForm(request.POST, prefix="pesoAltura")
 			plicometriaForm = PlicometriaForm(request.POST, prefix="plicometria")
 			objetivosForm = ObjetivosForm(request.POST, prefix="objetivos")
-
 			
 			if avaliacaoForm.is_valid() \
 			and historicoForm.is_valid() \
