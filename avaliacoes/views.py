@@ -13,32 +13,23 @@ from views_doencas import *
 
 def teste(request):
 	if request.method == 'POST':
-		print("method post")
 		doencaForm = DoencaForm(request.POST, prefix="doenca")
 		if doencaForm.is_valid():
-			print("Valido")
-			html = str(render(request, 'teste2.html', {'doencaForm': doencaForm}, content_type=""))
-			index = html.find('<')
-			html = html[index:]
-			print(html)
-			data = {'html':html, 'message':"Mensagem qualquer"}
-			print(data)
-			data2 = json.dumps(data)
-			print(data2)
-			return HttpResponse(data2, content_type="application/json")
+			# doenca = doencaForm.save()
+			# data = {'return':0, 'obj' : {'id': doenca.pk, 'nome' : doenca.nome}}
+			data = {'return':0, 'obj' : {'id': 17, 'nome' : "NOME QUALQUER"}}
+			return HttpResponse(json.dumps(data), content_type="application/json")
 		else:
-			print("Invalido")
 			html = str(render(request, 'teste2.html', {'doencaForm': doencaForm}))
 			index = html.find('<')
 			html = html[index:]
-			data = {'html':html, 'message':"Mensagem qualquer"}
-			print(data)
-			data2 = json.dumps(data)
-			print(data2)
-			return HttpResponse(data2, content_type="application/json")
-	doencaForm = DoencaForm(prefix="doenca")
-	historicoForm = HistoricoForm(prefix="historico")
-	return render(request, 'teste1.html', {'doencaForm': doencaForm, 'historicoForm':historicoForm})
+			data = {'return':1, 'html':html}
+			return HttpResponse(json.dumps(data), content_type="application/json")
+
+	doencaForm = DoencaForm(prefix='doenca')
+	historicoForm = HistoricoForm(prefix='historico')
+	return render(request, 'teste1.html', {'doencaForm':doencaForm, 'historicoForm':historicoForm})
+
 
 def avaliacoes(request):
 	if request.method == 'POST': # If the form has been submitted...

@@ -1,12 +1,25 @@
 {% extends "base.html" %}
 
 {% block conteudo %}
-<div id="divForm">
 	{{historicoForm.doencas}}
 	{{historicoForm.atividades_fisicas}}
+
+<div id='d1' class='d' style='background:red'>
+Div 1
+	<div class='s' style='background:blue'>
+ 	subdiv 1
+</div>
+</div>
+<br>
+<br><br><br>
+<div style='background:red'>
+Div 2
+	<div class='s' id='d2' class='d' style='background:blue'>
+ 	subdiv 2
+</div>
 </div>
 
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" onclick="alert('teste')">Open Modal</button>
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
@@ -14,13 +27,13 @@
 
     <!-- Modal content-->
     <div class="modal-content">
-    <form id="formAjax" action="." method="post" class="formAjax"> {% csrf_token %}
+    <form  action="." method="post" class="formAjax"> {% csrf_token %}
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Modal Header</h4>
       </div>
       <div class="modal-body">
-      	<div id="formDoenca">
+      	<div class="divForm">
         {{doencaForm.as_p}}
         </div>
       </div>
@@ -36,6 +49,7 @@
 
 <script type="text/javascript">
 $(".formAjax").submit(function() {
+	form = $(this);
 
     $.ajax({
            type: $(this).attr('method'),
@@ -43,8 +57,32 @@ $(".formAjax").submit(function() {
            data: $(this).serialize(), // serializes the form's elements.
            success: function(data)
            {
-           		 // alert(data['html']); // show response from the php script.
-           		 $('#formDoenca').html(data['html'])
+           		//se for zero, é sucesso, e manda um objeto com id e nome
+           		 if(data['return'] == 0){
+           		 	//retiro o modal da tela
+           		 	$('#myModal').modal('hide');
+
+           		 	//limpa todos dados do formulario,
+           		 	//funciona pq foi atribuido fora do 'ajax'
+           		 	form[0].reset();
+
+           		 	//monto uma string com a opção
+           		 	var option = '<option value="' + data['obj']['id'] + '">' + data['obj']['nome'] + '</option>'
+           		 	//adiciono a opção no select
+           		 	$('#id_historico-doencas').append(option)
+           		 	//verifico se o select já tinha algo selecionado ou não, para adicionar o que acabou de ser registrado
+           		 	selecionados = $('#id_historico-doencas').val();
+           		 	if(selecionados == null){
+           		 		selecionados = [data['obj']['id']]
+           		 	}else{
+           		 		selecionados.push(data['obj']['id']);
+           		 	}
+           		 	//adiciono ao select2
+           		 	$('#id_historico-doencas').val(selecionados).trigger("change");
+           		 }else{
+           		 	$('#divForm').html(data['html'])
+           		 }
+           		 
            },
            error : function(data){
            	alert('erro')
