@@ -24,6 +24,9 @@ def clientes_inserir(request):
 		if form.is_valid():
 			form.save()
 			return redirect("pessoas_clientes")	
+		else:
+			context = {'form' : form}
+			return render(request, 'pessoas/clientes/inserir.html', context)
 	form = ClienteForm()
 	context = {'form' : form}
 	return render(request, 'pessoas/clientes/inserir.html', context)
@@ -41,6 +44,9 @@ def clientes_editar(request, pessoaId):
 		if form.is_valid():
 			form.save()
 			return redirect("pessoas_clientes")
+		else:
+			context = {'form' : form}
+			return render(request, 'pessoas/clientes/inserir.html', context)
 	else:
 		# inicia o form com os dados da pessoa buscada
 		form = ClienteForm(instance=pessoa)

@@ -23,7 +23,10 @@ def avaliadores_inserir(request):
         form = AvaliadorForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("pessoas_avaliadores")    
+            return redirect("pessoas_avaliadores")
+        else:
+            context = {'form' : form}
+            return render(request, 'pessoas/avaliadores/inserir.html', context)
     form = AvaliadorForm()
     context = {'form' : form}
     return render(request, 'pessoas/avaliadores/inserir.html', context)
@@ -41,6 +44,9 @@ def avaliadores_editar(request, pessoaId):
         if form.is_valid():
             form.save()
             return redirect("pessoas_avaliadores")
+        else:
+            context = {'form' : form}
+            return render(request, 'pessoas/avaliadores/inserir.html', context)
     else:
         # inicia o form com os dados da pessoa buscada
         form = AvaliadorForm(instance=pessoa)
