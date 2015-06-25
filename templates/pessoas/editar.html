@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 
 {% block conteudo %}
+<h1>Editar {{ obj.verbose }}</h1>
 	{% if pessoa == None %}
-		Nao foi encontrado nenhum avaliador com o id informado
+		Nao foi encontrado nenhum {{ obj.verbose.lower }} com o id informado
 		{% else %}
 			<form action="." method="post"> {% csrf_token %}
 				{{ form.as_p }}
 				<input type="submit" value="Salvar" />
-				<input type="submit" value="Cancelar" onclick="window.location={% url 'pessoas_avaliadores' %}; return false" />
+				<input type="submit" value="Cancelar" onclick="window.location={{ obj.url_index }}; return false" />
 			</form>
 	{% endif %}	
 {% endblock conteudo %}

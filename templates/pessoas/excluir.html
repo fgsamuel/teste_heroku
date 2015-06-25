@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block conteudo %}
-	Tem certeza que deseja excluir o registro
+	Tem certeza que deseja excluir o {{ obj.verbose.lower }}
 	<p>
 		{{pessoa.nome}}
 	</p>
 
 	<form action="." method="post"> {% csrf_token %}
 		<input type="submit" value="Excluir" />
-		<input type="submit" value="Cancelar" onclick="window.location={% url 'pessoas_avaliadores' %}; return false" />
+		<input type="submit" value="Cancelar" onclick="window.location={{ obj.url_index }}; return false" />
 	</form>
 {% endblock conteudo %}

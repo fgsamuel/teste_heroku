@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from django.core.urlresolvers import reverse
 from django.db import models
 
 # Classe abstrata para reunir todas informações comuns à pessoas
@@ -11,8 +12,44 @@ class Pessoa(models.Model):
 	numero = models.CharField(max_length=10, blank=True)
 	complemento = models.CharField(max_length=50, blank=True)
 	observacao = models.CharField(max_length=300, blank=True)
+	
+	#nome da classe no singular
+	def verbose(self):
+		return self._meta.verbose_name.title()
+	#nome da classe no plural
+	def verbose_plural(self):
+		return self._meta.verbose_name_plural.title()
+	
 	def __unicode__(self):
 		return self.nome
+	
+	'''
+	Sequência de métodos para obter as urls do crud, definidas em cada modelo pelo reverse()
+	'''
+	def url_index(self):
+		return reverse(self.index)
+
+	def url_inserir(self):
+		return reverse(self.inserir)
+	
+	def url_editar(self):
+		if self.pk:
+			return reverse(self.editar, kwargs={'pessoaId':self.pk})
+		else:
+			return ""
+	
+	def url_visualizar(self):
+		if self.pk:
+			return reverse(self.visualizar, kwargs={'pessoaId':self.pk})
+		else:
+			return ""
+	
+	def url_excluir(self):
+		if self.pk:
+			return reverse(self.excluir, kwargs={'pessoaId':self.pk})
+		else:
+			return ""
+		
 	# para não ser persistida no banco
 	class Meta:
 		abstract = True
@@ -20,11 +57,31 @@ class Pessoa(models.Model):
 
 
 class Cliente(Pessoa):
-	pass
-
-
+	index = 'pessoas_clientes'
+	inserir = 'pessoas_clientes_inserir'
+	editar = 'pessoas_clientes_editar'
+	visualizar = 'pessoas_clientes_visualizar'
+	excluir = 'pessoas_clientes_excluir'
+	
+	def form(self):
+		from pessoas.forms import ClienteForm
+		return ClienteForm
+	
 class Avaliador(Pessoa):
-	pass
+	index = 'pessoas_avaliadores'
+	inserir = 'pessoas_avaliadores_inserir'
+	editar = 'pessoas_avaliadores_editar'
+	visualizar = 'pessoas_avaliadores_visualizar'
+	excluir = 'pessoas_avaliadores_excluir'
+	
+	def form(self):
+		from pessoas.forms import AvaliadorForm
+		return AvaliadorForm
+	
+	
+	class Meta:
+		#o plural dele vem errado de acordo com a lingua portuguesa
+		verbose_name_plural = 'Avaliadores'
 
 
 class Telefone(models.Model):
