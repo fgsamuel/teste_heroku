@@ -5,10 +5,8 @@ import json
 from django.http.response import HttpResponse
 
 from avaliacoes.forms import AvaliacaoForm, HistoricoForm, FormularioPARQForm, DadosVitaisForm, \
-	CircunferenciasForm, PesoAlturaForm, PlicometriaForm, ObjetivosForm, DoencaForm
-from views_atividades_fisicas import *
-from views_cirurgias import *
-from views_doencas import *
+	CircunferenciasForm, PesoAlturaForm, PlicometriaForm, ObjetivosForm
+from views_simpleClass import *
 
 
 def teste(request):

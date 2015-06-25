@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from django.core.urlresolvers import reverse
 from django.db import models
+
 from pessoas.models import Avaliador, Cliente
 
-#-------------- Classes básicas do sistema------------------
 
+#-------------- Classes básicas do sistema------------------
 #Classe abstrata para herança de classes que tenham apenas no nome
 class SimpleClass(models.Model):
 	nome = models.CharField(max_length=50)
@@ -12,18 +14,98 @@ class SimpleClass(models.Model):
 		return self.nome
 	class Meta:
 		abstract = True
+		ordering = ['nome']
+	#nome da classe no singular
+	def verbose(self):
+		return self._meta.verbose_name.title()
+	#nome da classe no plural
+	def verbose_plural(self):
+		return self._meta.verbose_name_plural.title()
+	
+	'''
+	Sequência de métodos para obter as urls do crud, definidas em cada modelo pelo reverse()
+	'''
+	def url_index(self):
+		return reverse(self.index)
+
+	def url_inserir(self):
+		return reverse(self.inserir)
+	
+	def url_editar(self):
+		if self.pk:
+			return reverse(self.editar, kwargs={'pk':self.pk})
+		else:
+			return ""
+	
+	def url_visualizar(self):
+		if self.pk:
+			return reverse(self.visualizar, kwargs={'pk':self.pk})
+		else:
+			return ""
+	
+	def url_excluir(self):
+		if self.pk:
+			return reverse(self.excluir, kwargs={'pk':self.pk})
+		else:
+			return ""
+		
 
 class AtividadeFisica(SimpleClass):
-	pass
+	index = 'atividades_fisicas_listar'
+	inserir = 'atividades_fisicas_inserir'
+	editar = 'atividades_fisicas_editar'
+	visualizar = 'atividades_fisicas_visualizar'
+	excluir = 'atividades_fisicas_excluir'
+	
+	def form(self):
+		from avaliacoes.forms import AtividadeFisicaForm
+		return AtividadeFisicaForm
+	
+	class Meta:
+		verbose_name_plural = u'Atividades Físicas'
+		verbose_name = u"Atividade Física"
 
 class Doenca(SimpleClass):
-	pass
+	index = 'doencas_listar'
+	inserir = 'doencas_inserir'
+	editar = 'doencas_editar'
+	visualizar = 'doencas_visualizar'
+	excluir = 'doencas_excluir'
+	
+	def form(self):
+		from avaliacoes.forms import DoencaForm
+		return DoencaForm
+	
+	class Meta:
+		verbose_name_plural = u'Doenças'
+		verbose_name = u"Doença"
+
 
 class Cirurgia(SimpleClass):
-	pass
+	index = 'cirurgias_listar'
+	inserir = 'cirurgias_inserir'
+	editar = 'cirurgias_editar'
+	visualizar = 'cirurgias_visualizar'
+	excluir = 'cirurgias_excluir'
+	
+	def form(self):
+		from avaliacoes.forms import CirurgiaForm
+		return CirurgiaForm
 
 class Medicacao(SimpleClass):
-	pass
+	index = 'medicacoes_listar'
+	inserir = 'medicacoes_inserir'
+	editar = 'medicacoes_editar'
+	visualizar = 'medicacoes_visualizar'
+	excluir = 'medicacoes_excluir'
+	
+	def form(self):
+		from avaliacoes.forms import MedicacaoForm
+		return MedicacaoForm
+	
+	class Meta:
+		verbose_name_plural = u'Medicações'
+		verbose_name = u"Medicação"
 
 
 #Avaliação é a classe principal, através dela deve ser possível buscar todas as outras pelos relacionamentos

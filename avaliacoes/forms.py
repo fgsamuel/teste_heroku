@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from django.forms import ModelForm, DateTimeInput
-from avaliacoes.models import Avaliacao, Historico, FormularioPARQ, DadosVitais, Circunferencias, PesoAltura,\
-	Plicometria, Objetivos, Doenca, AtividadeFisica, Cirurgia
 from django.forms.widgets import SelectMultiple
+
+from avaliacoes.models import Avaliacao, Historico, FormularioPARQ, DadosVitais, Circunferencias, PesoAltura, \
+	Plicometria, Objetivos, Doenca, AtividadeFisica, Cirurgia, Medicacao
+
 
 class AvaliacaoForm(ModelForm):
 	class Meta:
@@ -137,6 +139,11 @@ class AtividadeFisicaForm(ModelForm):
 class CirurgiaForm(ModelForm):
 	class Meta:
 		model = Cirurgia
+		fields = '__all__'
+
+class MedicacaoForm(ModelForm):
+	class Meta:
+		model = Medicacao
 		fields = '__all__'
 	
 	

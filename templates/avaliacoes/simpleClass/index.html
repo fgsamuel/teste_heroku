@@ -10,20 +10,20 @@ th, td {
 }
 </style>
 
-<h1>Atividades Físicas</h1>
+<h1> {{ obj.verbose_plural }} </h1>
 
-<a class="btn btn-default btn-sm" href={% url "atividades_fisicas_inserir" %}>
-	Inserir nova atividade físicas
+<a class="btn btn-default btn-sm" href={{ obj.url_inserir }}>
+	Inserir {{ obj.verbose }}
 </a>
 
 <br /><br />
 <form class="navbar-form navbar-left" role="search" method="post" action".">{% csrf_token %}
   <div class="form-group">
-    <input id="id_busca" name="busca" type="text" class="form-control" placeholder="Digite o nome da atividade">
+    <input id="id_busca" name="busca" type="text" class="form-control" placeholder="Digite o nome">
   </div>
   <button type="submit" class="btn btn-default">Buscar</button>
 </form>
-{% if atividades_fisicas %}
+{% if lista %}
 	<table style="width:80%">
 	  <tr>
 	    <th>ID</th>
@@ -32,17 +32,17 @@ th, td {
 	    <th>Excluir</th>
 	  </tr>
 		
-		{% for atividade in atividades_fisicas %}
+		{% for item in lista %}
 		  	<tr>
-		  		<td> {{ atividade.id }} </td>
-		  		<td> {{ atividade.nome }} </td>
+		  		<td> {{ item.id }} </td>
+		  		<td> {{ item.nome }} </td>
 		  		<td>
-		        	<a class="btn btn-default btn-xs" href={% url "atividades_fisicas_editar" atividade.id %}>
+		        	<a class="btn btn-default btn-xs" href={{ item.url_editar }}>
 		        		<span class="glyphicon glyphicon-pencil" aria-hidden="true" />
 		        	</a>
 		      	</td>
 		  		<td>
-		        	<a class="btn btn-default btn-xs" href={% url "atividades_fisicas_excluir" atividade.id %}>
+		        	<a class="btn btn-default btn-xs" href={{ item.url_excluir }}>
 						<span class="glyphicon glyphicon-remove" aria-hidden="true" />
 					</a>
 		      	</td>

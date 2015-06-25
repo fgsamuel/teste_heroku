@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 
 {% block conteudo %}
-	{% if cirurgia == None %}
+<h1>Editar {{ obj.verbose }}</h1>
+	{% if obj == None %}
 		Nao foi encontrado nenhum registro com o id informado
 		{% else %}
 			<form action="." method="post"> {% csrf_token %}
 				{{ form.as_p }}
 				<input type="submit" value="Salvar" />
-				<input type="submit" value="Cancelar" onclick="window.location={% url 'cirurgias_listar' %}; return false" />
+				<input type="submit" value="Cancelar" onclick="window.location={{ obj.url_index }}; return false" />
 			</form>
 	{% endif %}	
 {% endblock conteudo %}
