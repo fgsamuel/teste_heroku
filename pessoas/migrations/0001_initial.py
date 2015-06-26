@@ -23,8 +23,7 @@ class Migration(migrations.Migration):
                 ('observacao', models.CharField(max_length=300, blank=True)),
             ],
             options={
-                'ordering': ['nome'],
-                'abstract': False,
+                'verbose_name_plural': 'Avaliadores',
             },
         ),
         migrations.CreateModel(

@@ -9,19 +9,45 @@ from avaliacoes.forms import AvaliacaoForm, HistoricoForm, FormularioPARQForm, D
 from views_simpleClass import *
 
 
+
+def ajax_form(request, Formulario):
+	if request.method == 'POST':
+		form = Formulario(request.POST)
+		if form.is_valid():
+			obj = form.save()
+			data = {'return':0, 'obj' : {'id': obj.pk , 'nome' : u'{}'.format(obj.nome) }}
+			return HttpResponse(json.dumps(data), content_type="application/json")
+		else:
+			html = str(render(request, 'teste2.html', {'form': form}))
+			index = html.find('<')
+			html = html[index:]
+			data = {'return':1, 'html':html}
+			return HttpResponse(json.dumps(data), content_type="application/json")
+	else:
+		print('é get')
+		form = Formulario()
+		return render(request, 'teste2.html', {'form': form})
+	
+	
 def teste(request):
 	if request.method == 'POST':
-		doencaForm = DoencaForm(request.POST, prefix="doenca")
-		if doencaForm.is_valid():
+		form = DoencaForm(request.POST, prefix="doenca")
+		if form.is_valid():
 			# doenca = doencaForm.save()
 			# data = {'return':0, 'obj' : {'id': doenca.pk, 'nome' : doenca.nome}}
 			data = {'return':0, 'obj' : {'id': 17, 'nome' : "NOME QUALQUER"}}
 			return HttpResponse(json.dumps(data), content_type="application/json")
 		else:
-			html = str(render(request, 'teste2.html', {'doencaForm': doencaForm}))
+			html = str(render(request, 'teste2.html', {'form': form}))
+			print('primeiro')
+			print(html)
 			index = html.find('<')
 			html = html[index:]
+			print('segundo')
+			print(html)
 			data = {'return':1, 'html':html}
+			print('data')
+			print(data)
 			return HttpResponse(json.dumps(data), content_type="application/json")
 
 	doencaForm = DoencaForm(prefix='doenca')
@@ -39,6 +65,7 @@ def avaliacoes(request):
 			pesoAlturaForm = PesoAlturaForm(request.POST, prefix="pesoAltura")
 			plicometriaForm = PlicometriaForm(request.POST, prefix="plicometria")
 			objetivosForm = ObjetivosForm(request.POST, prefix="objetivos")
+
 			
 			if avaliacaoForm.is_valid() \
 			and historicoForm.is_valid() \

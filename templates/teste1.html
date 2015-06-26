@@ -5,21 +5,27 @@
 	{{historicoForm.atividades_fisicas}}
 
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
-<button onclick="ajax();">Send an HTTP GET request to a page and get the result back</button>
+<button onclick="ajax('parametro');">Send an HTTP GET request to a page and get the result back</button>
+<br>
+<button id='btnDoenca' modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-atividades_fisicas, #id_historico-doencas' type="button" class="btn btn-primary" url={% url 'form_ajax_doenca'%} onclick="ajax(this)">Adicionar Doença</button>
+<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-atividades_fisicas, #id_historico-doencas' type="button" class="btn btn-primary" url={% url 'form_ajax_doenca'%} onclick="ajax(this)">Adicionar Atividade Física</button>
+<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-atividades_fisicas, #id_historico-doencas' type="button" class="btn btn-primary" url={% url 'form_ajax_doenca'%} onclick="ajax(this)">Adicionar Medicação</button>
+<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-atividades_fisicas, #id_historico-doencas' type="button" class="btn btn-primary" url={% url 'form_ajax_cirurgia'%} onclick="ajax(this)">Adicionar Cirurgia</button>
+
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
-    <form  action="/avaliacoes/form_doenca" method="post" class="formAjax"> {% csrf_token %}
+    <form  action="." method="post" id="formAjax"> {% csrf_token %}
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
+        <h4 class="modal-title"><sapn id='verbose' /></h4>
       </div>
       <div class="modal-body">
-      	<div class="divForm">
-
+      	<div id='divForm' class="divForm">
+        
         </div>
       </div>
       <div class="modal-footer">
@@ -65,12 +71,12 @@ $(".formAjax").submit(function() {
            		 	//adiciono ao select2
            		 	$('#id_historico-doencas').val(selecionados).trigger("change");
            		 }else{
-           		 	$('#divForm').html(data['html'])
+           		 	$('.divForm').html(data['html'])
            		 }
            		 
            },
            error : function(data){
-           	console.log(data);
+           	alert('erro')
            }
          });
 
@@ -85,11 +91,19 @@ $(document).ready(function(){
     });
 });
 
-function ajax(){
-	$.get("/avaliacoes/form_doenca", function(data, status){
-        //alert("Data: " + data + "\nStatus: " + status);
-       $('.divForm').html(data)
-       $('#myModal').modal('show');
+
+function ajax(obj){
+	url = $(obj).attr('url');
+	ids = $(obj).attr('atualizarIds');
+	divId = $(obj).attr('divId');
+	modalId = $(obj).attr('modalId')
+	
+	$('#verbose').html($(obj).text())
+	$().html($(obj).text())
+	
+	$.get(url, function(data, status){
+       $(divId).html(data)
+       $(modalId).modal('show');
     });
 }
 </script>

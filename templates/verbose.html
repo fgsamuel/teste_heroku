@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+<br><br><br><br>
+	
+	{{obj.url_index}}<br>
+	{{obj.url_editar}}<br>
+	{{obj.url_visualizar}}<br>
+	{{obj.url_excluir}}<br>
+
+	
+<a href="{{obj.teste}}">Teste</a>
+
+{%if not obj.teste %}
+	Vazio
+{% endif %}
+{% endblock conteudo %}

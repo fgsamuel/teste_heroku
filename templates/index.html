@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
+{% block scripts %}
+	<script src={% static "js/simpleClassAjaxForm.js" %} type="text/javascript"></script>
+{% endblock scripts %}
+
 {% block conteudo %}
 <form action="." method="post"> {% csrf_token %}
  
@@ -28,9 +34,15 @@
         {{ objetivosForm.as_p }}
       </div>
       <div id="historico">
-      <button class="btn btn-primary" type="button">Adicionar Doença</button>
-      <button class="btn btn-primary" type="button">Adicionar Atividade Física</button>
-      <button class="btn btn-primary" type="button">Adicionar Medicação</button>
+
+      {% comment %}
+        Cada um dos botões a seguir tem informações q são passadas para o método 'ajax' e posteriormente para o submit do formulário 'formAjax'
+        as funções estão no arquivo simpleClassAjaxForm que está na tag scripts, mas é colocada na parte inferior no template.
+      {% endcomment %}
+    <button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-atividades_fisicas' type="button" class="btn btn-primary" url={% url 'form_ajax_atividade_fisica'%} onclick="ajax(this)">Adicionar Atividade Física</button>
+	<button type="button"modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-doencas, #id_historico-historico_familiar_doencas' class="btn btn-primary" url={% url 'form_ajax_doenca'%} onclick="ajax(this)">Adicionar Doença</button>
+	<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-cirurgias' type="button" class="btn btn-primary" url={% url 'form_ajax_cirurgia'%} onclick="ajax(this)">Adicionar Cirurgia</button>
+	<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-medicacoes' type="button" class="btn btn-primary" url={% url 'form_ajax_medicacao'%} onclick="ajax(this)">Adicionar Medicação</button>
       <br><br>
         {{ historicoForm.as_p }}
       </div>
@@ -72,4 +84,32 @@
 <input type="submit" value="Salvar" />
 				<input type="submit" value="Cancelar" onclick="window.location={% url 'avaliacoes' %}; return false" />
 			</form>
+			
+			
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+    <form  method="post" id="formAjax"> {% csrf_token %}
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><sapn id='verbose' /></h4>
+      </div>
+      <div class="modal-body">
+      	<div id='divForm'>
+        
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
 {% endblock conteudo %}
