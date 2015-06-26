@@ -4,6 +4,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 from avaliacoes import views as avaliacoes_view
+from avaliacoes.forms import DoencaForm, AtividadeFisicaForm, MedicacaoForm
 from avaliacoes.models import Doenca, AtividadeFisica, Cirurgia, Medicacao
 
 
@@ -42,4 +43,7 @@ urlpatterns = [
 
 
     url(r'^teste/$', avaliacoes_view.teste, name="teste"),
+    url(r'^avaliacoes/form_doenca/$', avaliacoes_view.formAjax, {'Classe':DoencaForm}, name="form_ajax_doenca"),
+    url(r'^avaliacoes/form_atividade_fisica/$', avaliacoes_view.formAjax, {'Classe':AtividadeFisicaForm}, name="form_ajax_atividade_fisica"),
+    url(r'^avaliacoes/form_medicacao/$', avaliacoes_view.formAjax, {'Classe':MedicacaoForm}, name="form_ajax_medicacao"),
 ]
