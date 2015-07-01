@@ -5,9 +5,10 @@ import json
 from django.http.response import HttpResponse
 
 from avaliacoes.forms import AvaliacaoForm, HistoricoForm, FormularioPARQForm, DadosVitaisForm, \
-	CircunferenciasForm, PesoAlturaForm, PlicometriaForm, ObjetivosForm
+	CircunferenciasForm, PesoAlturaForm, PlicometriaForm, ObjetivosForm, \
+	ImagemPosturalForm
 from views_simpleClass import *
-
+from avaliacoes.models import ImagemPostural
 
 
 def ajax_form(request, Formulario):
@@ -136,3 +137,25 @@ def avaliacoes(request):
 		'objetivosForm' : objetivosForm,
 		}
 	return render(request, 'index.html', context)
+
+
+
+def imagens(request):
+	# Handle file upload
+	if request.method == 'POST':
+		form = ImagemPosturalForm(request.POST, request.FILES)
+		if form.is_valid():
+			print("Válido")
+			img = form.save()
+			print(img)
+
+			# Redirect to the document list after POST
+			return redirect("imagens")
+	else:
+		form = ImagemPosturalForm() # A empty, unbound form
+
+	# Load documents for the list page
+	lista = ImagemPostural.objects.all()
+
+	# Render list page with the documents and the form
+	return render(request, 'imagens.html', {'lista':lista, 'form':form})

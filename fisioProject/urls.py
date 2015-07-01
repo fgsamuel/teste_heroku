@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from django.conf.urls import include, url
+from django.conf.urls import include, url, static
 from django.contrib import admin
 
 from avaliacoes import views as avaliacoes_view
-from avaliacoes.models import Doenca, AtividadeFisica, Cirurgia, Medicacao
-from avaliacoes.forms import DoencaForm, AtividadeFisicaForm, MedicacaoForm,\
+from avaliacoes.forms import DoencaForm, AtividadeFisicaForm, MedicacaoForm, \
     CirurgiaForm
+from avaliacoes.models import Doenca, AtividadeFisica, Cirurgia, Medicacao
+from fisioProject import settings
 
 
 urlpatterns = [
@@ -48,4 +49,6 @@ urlpatterns = [
     url(r'^avaliacoes/form_atividade_fisica', avaliacoes_view.ajax_form, {'Formulario': AtividadeFisicaForm}, name="form_ajax_atividade_fisica"),
     url(r'^avaliacoes/form_medicacao$', avaliacoes_view.ajax_form, {'Formulario': MedicacaoForm}, name="form_ajax_medicacao"),
     url(r'^avaliacoes/form_cirurgia$', avaliacoes_view.ajax_form, {'Formulario': CirurgiaForm}, name="form_ajax_cirurgia"),
+    
+    url(r'^imagens/$', avaliacoes_view.imagens, name="imagens"),
 ]

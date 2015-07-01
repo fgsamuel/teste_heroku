@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 
 from pessoas.models import Avaliador, Cliente
+from types import InstanceType
 
 
 #-------------- Classes básicas do sistema------------------
@@ -194,4 +195,13 @@ class Plicometria(models.Model):
 	coxa = models.IntegerField(null=True, blank=True)
 	panturrilha = models.IntegerField(null=True, blank=True)
 	biciptal = models.IntegerField(null=True, blank=True)
+	observacao = models.CharField(max_length=300, blank=True)
+
+class ImagemPostural(models.Model):
+	def get_file_name(self, filename):
+		if not self.pk:
+			print('nao tem pk')
+		return 'imagens_posturais/teste/foto.jpg'
+	foto = models.ImageField(upload_to=get_file_name)
+	descricao = models.CharField(max_length=100)
 	observacao = models.CharField(max_length=300, blank=True)
