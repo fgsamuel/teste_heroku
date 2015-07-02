@@ -153,7 +153,7 @@ class ImagemPosturalForm(ModelForm):
 		model = ImagemPostural
 		fields = '__all__'
 		widgets = {
-            'foto': AdminResubmitFileWidget,
+            'foto': AdminResubmitFileWidget
         }
 	
 	

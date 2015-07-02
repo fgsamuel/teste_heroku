@@ -20,7 +20,8 @@
         <!-- Upload form. Note enctype attribute! -->
         <form action="." method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ forms.as_p }}
+            {{ formSet.management_form }}
             </p>
             <p><input type="submit" value="Upload" /></p>
         </form>

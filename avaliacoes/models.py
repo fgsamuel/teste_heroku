@@ -198,9 +198,7 @@ class Plicometria(models.Model):
 	observacao = models.CharField(max_length=300, blank=True)
 
 def get_file_name(instance, filename):
-		if not instance.pk:
-			print('nao tem pk')
-		return 'imagens_posturais/teste/foto.jpg'
+	return 'imagens_posturais/teste/foto.jpg'
 
 class ImagemPostural(models.Model):
 	foto = models.ImageField(upload_to=get_file_name)
