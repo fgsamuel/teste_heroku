@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     #'teste', #app para fazer testes
     'pessoas',
     'avaliacoes',
+    'file_resubmit',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -124,3 +125,12 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    },
+    "file_resubmit": {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        "LOCATION": '/tmp/file_resubmit/'
+    }}

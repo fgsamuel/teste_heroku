@@ -51,4 +51,6 @@ urlpatterns = [
     url(r'^avaliacoes/form_cirurgia$', avaliacoes_view.ajax_form, {'Formulario': CirurgiaForm}, name="form_ajax_cirurgia"),
     
     url(r'^imagens/$', avaliacoes_view.imagens, name="imagens"),
+    
+    url(r'^media/(.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 ]

@@ -9,7 +9,8 @@
     {% if lista %}
         <ul>
         {% for document in lista %}
-            <li><a href="{{ document.foto.url }}">{{ document.foto.name }}</a></li>
+            <li><a href="{{ document.foto.url }}">{{ document.descricao }}</a></li>
+            
         {% endfor %}
         </ul>
     {% else %}

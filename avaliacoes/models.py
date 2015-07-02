@@ -197,11 +197,12 @@ class Plicometria(models.Model):
 	biciptal = models.IntegerField(null=True, blank=True)
 	observacao = models.CharField(max_length=300, blank=True)
 
-class ImagemPostural(models.Model):
-	def get_file_name(self, filename):
-		if not self.pk:
+def get_file_name(instance, filename):
+		if not instance.pk:
 			print('nao tem pk')
 		return 'imagens_posturais/teste/foto.jpg'
+
+class ImagemPostural(models.Model):
 	foto = models.ImageField(upload_to=get_file_name)
 	descricao = models.CharField(max_length=100)
 	observacao = models.CharField(max_length=300, blank=True)

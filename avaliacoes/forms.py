@@ -6,6 +6,7 @@ from django.forms.widgets import SelectMultiple
 from avaliacoes.models import Avaliacao, Historico, FormularioPARQ, DadosVitais, Circunferencias, PesoAltura, \
 	Plicometria, Objetivos, Doenca, AtividadeFisica, Cirurgia, Medicacao, \
 	ImagemPostural
+from file_resubmit.admin import AdminResubmitFileWidget
 
 
 class AvaliacaoForm(ModelForm):
@@ -151,6 +152,9 @@ class ImagemPosturalForm(ModelForm):
 	class Meta:
 		model = ImagemPostural
 		fields = '__all__'
+		widgets = {
+            'foto': AdminResubmitFileWidget,
+        }
 	
 	
 	
