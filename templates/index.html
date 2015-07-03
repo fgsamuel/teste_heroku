@@ -1,115 +1,147 @@
 {% extends "base.html" %}
-
 {% load staticfiles %}
 
 {% block scripts %}
 	<script src={% static "js/simpleClassAjaxForm.js" %} type="text/javascript"></script>
 {% endblock scripts %}
 
+
 {% block conteudo %}
-<form action="." method="post"> {% csrf_token %}
- 
-    <div class="tabs">
-  <ul>
-    <li><a href="#geral">Geral</a></li>
-    <li><a href="#anamnese">Anamnese</a></li>
-    <li><a href="#antropometria">Antropometria</a></li>
-  </ul>
-  <div id="geral">
-    <h2>Informações gerais</h2>
-    	{{avaliacaoForm.as_p}}
-  </div>
-  
-  <div id="anamnese">
-    <h2>Anamnese</h2>
-    
-    <div class="tabs">
-      <ul>
-        <li><a href="#objetivos">Objetivos</a></li>
-        <li><a href="#historico">Histórico</a></li>
-        <li><a href="#parq">Formulário PAR-Q</a></li>
-        <li><a href="#dadosVitais">Dados Vitais</a></li>
-      </ul>
-      <div id="objetivos">
-        {{ objetivosForm.as_p }}
-      </div>
-      <div id="historico">
+<form action="." method="post">
+	{% csrf_token %}
 
-      {% comment %}
-        Cada um dos botões a seguir tem informações q são passadas para o método 'ajax' e posteriormente para o submit do formulário 'formAjax'
-        as funções estão no arquivo simpleClassAjaxForm que está na tag scripts, mas é colocada na parte inferior no template.
-      {% endcomment %}
-    <button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-atividades_fisicas' type="button" class="btn btn-primary" url={% url 'form_ajax_atividade_fisica'%} onclick="ajax(this)">Adicionar Atividade Física</button>
-	<button type="button"modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-doencas, #id_historico-historico_familiar_doencas' class="btn btn-primary" url={% url 'form_ajax_doenca'%} onclick="ajax(this)">Adicionar Doença</button>
-	<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-cirurgias' type="button" class="btn btn-primary" url={% url 'form_ajax_cirurgia'%} onclick="ajax(this)">Adicionar Cirurgia</button>
-	<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-medicacoes' type="button" class="btn btn-primary" url={% url 'form_ajax_medicacao'%} onclick="ajax(this)">Adicionar Medicação</button>
-      <br><br>
-        {{ historicoForm.as_p }}
-      </div>
-       <div id="parq">
-        {{ parqForm.as_p }}
-      </div>
-       <div id="dadosVitais">
-        {{ dadosVitaisForm.as_p }}
-      </div>
-      
-    </div>
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href="#geral"	aria-controls="geral" role="tab" data-toggle="tab">Geral</a></li>
+		<li role="presentation"><a href="#anamnese"	aria-controls="anamnese" role="tab" data-toggle="tab">Anamnese</a></li>
+		<li role="presentation"><a href="#antropometria" aria-controls="antropometria" role="tab" data-toggle="tab">Antropometria</a></li>
+	</ul>
 
-  </div>
+	<div class="tab-content">
 
-  <div id="antropometria">
-    <h2>Antropometria</h2>
-      
-      <div class="tabs">
-      <ul>
-        <li><a href="#circunferencias">Circunferências</a></li>
-        <li><a href="#pesoAltura">Peso e Altura</a></li>
-        <li><a href="#plicometria">Plicometria</a></li>
-      </ul>
-      <div id="circunferencias">
-        {{ circunferenciasForm.as_p }}
-      </div>
-      <div id="pesoAltura">
-        {{ pesoAlturaForm.as_p }}
-      </div>
-       <div id="plicometria">
-        {{ plicometriaForm.as_p }}
-      </div>
-      
-    </div>
+		<div role="tabpanel" class="tab-pane active" id="geral">
+			<h2>Informações gerais</h2>
+			{{avaliacaoForm.as_p}}
+		</div>
 
-  </div>
+		<div role="tabpanel" class="tab-pane" id="anamnese">
+			<h2>Anamnese</h2>
 
-</div>
-<input type="submit" value="Salvar" />
-				<input type="submit" value="Cancelar" onclick="window.location={% url 'avaliacoes' %}; return false" />
-			</form>
-			
-			
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href="#objetivos"	aria-controls="objetivos" role="tab" data-toggle="tab">Objetivos</a></li>
+				<li role="presentation"><a href="#historico" aria-controls="historico" role="tab" data-toggle="tab">Histórico</a></li>
+				<li role="presentation"><a href="#parq" aria-controls="parq" role="tab" data-toggle="tab">Formulário PAR-Q</a></li>
+				<li role="presentation"><a href="#dadosVitais" aria-controls="dadosVitais" role="tab" data-toggle="tab">Dados Vitais</a></li>
+			</ul>
+
+			<div class="tab-content">
+
+				<div role="tabpanel" class="tab-pane active" id="objetivos">
+					{{ objetivosForm.as_p }}
+				</div>
+
+
+				<div role="tabpanel" class="tab-pane" id="historico">
+
+					{% comment %} Cada um dos botões a seguir tem informações q são
+					passadas para o método 'ajax' e posteriormente para o submit do
+					formulário 'formAjax' as funções estão no arquivo
+					simpleClassAjaxForm que está na tag scripts, mas é colocada na
+					parte inferior no template. {% endcomment %}
+					
+					<br>
+					<br>
+					<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-atividades_fisicas' type="button" class="btn btn-primary" url={% url 'form_ajax_atividade_fisica'%} onclick="ajax(this)">Adicionar
+						Atividade Física
+					</button>
+					<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-doencas, #id_historico-historico_familiar_doencas' class="btn btn-primary" url={% url 'form_ajax_doenca'%} onclick="ajax(this)">Adicionar
+						Doença
+					</button>
+					<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-cirurgias' type="button" class="btn btn-primary" url={% url 'form_ajax_cirurgia'%} onclick="ajax(this)">Adicionar
+						Cirurgia
+					</button>
+					<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-medicacoes' type="button" class="btn btn-primary" url={% url 'form_ajax_medicacao'%} onclick="ajax(this)">Adicionar
+						Medicação
+					</button>
+					
+					<br>
+					<br>
+					
+					{{ historicoForm.as_p }}
+				</div>
+				
+				<div role="tabpanel" class="tab-pane" id="parq">
+					{{ parqForm.as_p }}
+				</div>
+				
+				<div role="tabpanel" class="tab-pane" id="dadosVitais">
+					{{ dadosVitaisForm.as_p }}
+				</div>
+
+			</div>
+
+		</div>
+
+		<div role="tabpanel" class="tab-pane" id="antropometria">
+			<h2>Antropometria</h2>
+
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href="#circunferencias" aria-controls="circunferencias" role="tab" data-toggle="tab">Circunferências</a></li>
+				<li role="presentation"><a href="#pesoAltura" aria-controls="pesoAltura" role="tab" data-toggle="tab">Peso e Altura</a></li>
+				<li role="presentation"><a href="#plicometria" aria-controls="plicometria" role="tab" data-toggle="tab">Plicometria</a></li>
+			</ul>
+
+			<div class="tab-content">
+
+				<div role="tabpanel" class="tab-pane active" id="circunferencias">
+					{{ circunferenciasForm.as_p }}
+				</div>
+
+				<div role="tabpanel" class="tab-pane" id="pesoAltura">
+					{{ pesoAlturaForm.as_p }}
+				</div>
+
+				<div role="tabpanel" class="tab-pane" id="plicometria">
+					{{plicometriaForm.as_p }}
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+
+	<input type="submit" value="Salvar" /> <input type="submit" value="Cancelar" onclick="window.location={% url 'avaliacoes' %}; return false" />
+</form>
+
+
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+	<div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-    <form  method="post" id="formAjax"> {% csrf_token %}
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title"><sapn id='verbose' /></h4>
-      </div>
-      <div class="modal-body">
-      	<div id='divForm'>
-        
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-        <button type="submit" class="btn btn-primary">Salvar</button>
-      </div>
-      </form>
-    </div>
+		<!-- Modal content-->
+		<div class="modal-content">
+			<form method="post" id="formAjax">
+				{% csrf_token %}
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">
+						<sapn id='verbose' />
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div id='divForm'></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+					<button type="submit" class="btn btn-primary">Salvar</button>
+				</div>
+			</form>
+		</div>
 
-  </div>
+	</div>
 </div>
 
 {% endblock conteudo %}

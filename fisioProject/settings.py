@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'pessoas',
     'avaliacoes',
     'file_resubmit',
+    'ajax_select',
 )
 
 MIDDLEWARE_CLASSES = (

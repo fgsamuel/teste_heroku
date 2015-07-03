@@ -1,34 +1,46 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
+from django.forms.formsets import formset_factory
 
 
 def index(request, Classe):
     obj = Classe()
+    txtBusca = ""
     if request.method == 'POST':
-        busca = request.POST.get("busca", None)
-        if busca != None:
-            pessoas = Classe.objects.filter(nome__icontains=busca)
+        txtBusca = request.POST.get("busca")
+        if txtBusca.strip():
+            pessoas = Classe.objects.filter(nome__icontains=txtBusca)
         else:
             pessoas = Classe.objects.all()
     else:
         pessoas = Classe.objects.all()
         
-    context = {'pessoas': pessoas, 'obj':obj}
+    context = {'pessoas': pessoas, 'obj':obj, 'busca':txtBusca}
     return render(request, 'pessoas/index.html', context)
 
 def inserir(request, Classe):
     obj = Classe()
     objForm = obj.form()
+    TelefoneForm = obj.telefone_form()
+    FormSet = formset_factory(TelefoneForm, extra=1)
     if request.method == 'POST':
         form = objForm(request.POST)
-        if form.is_valid():
-            form.save()
+        form_telefone = FormSet(request.POST)
+        if form.is_valid() and form_telefone.is_valid():
+            pessoa = form.save()
+            
+            for f in form_telefone:
+                if f.has_changed():
+                    telefone = f.save(commit=False)
+                    telefone.pessoa = pessoa
+                    telefone.save()
+            
             return redirect(obj.index)    
         else:
-            context = {'form' : form, 'obj':obj}
+            context = {'form' : form, 'obj':obj, 'telefonesForm':form_telefone}
             return render(request, 'pessoas/inserir.html', context)
     form = objForm()
-    context = {'form' : form, 'obj':obj}
+    context = {'form' : form, 'obj':obj, 'telefonesForm':FormSet}
     return render(request, 'pessoas/inserir.html', context)
 
 def editar(request, pessoaId, Classe):

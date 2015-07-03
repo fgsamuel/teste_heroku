@@ -142,13 +142,16 @@ def avaliacoes(request):
 
 
 def imagens(request):
-	ImagemPosturalFormSet = formset_factory(ImagemPosturalForm, extra=4)
+	ImagemPosturalFormSet = formset_factory(ImagemPosturalForm, extra=1)
 	forms = ImagemPosturalFormSet()
 	# Handle file upload
 	if request.method == 'POST':
 		forms = ImagemPosturalFormSet(request.POST, request.FILES)
 		if forms.is_valid():
-			print("Válido")
+			for form in forms:
+				if not form.is_empty():
+					form.save()
+			forms = ImagemPosturalFormSet()
 		else:
 			print("Inválido")
 

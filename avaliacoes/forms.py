@@ -155,6 +155,8 @@ class ImagemPosturalForm(ModelForm):
 		widgets = {
             'foto': AdminResubmitFileWidget
         }
+	def is_empty(self):
+		return is_empty(self)
 	
 	
 	
