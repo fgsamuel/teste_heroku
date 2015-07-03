@@ -58,75 +58,86 @@ def teste(request):
 
 
 def avaliacoes(request):
+	avaliacaoForm = AvaliacaoForm(prefix="avaliacao")
+	historicoForm = HistoricoForm(prefix="historico")
+	parqForm = FormularioPARQForm(prefix="parq")
+	dadosVitaisForm = DadosVitaisForm(prefix="dadosvitais")
+	circunferenciasForm = CircunferenciasForm(prefix="circunferencias")
+	pesoAlturaForm = PesoAlturaForm(prefix="pesoAltura")
+	plicometriaForm = PlicometriaForm(prefix="plicometria")
+	objetivosForm = ObjetivosForm(prefix="objetivos")
+	ImagemPosturalFormSet = formset_factory(ImagemPosturalForm, extra=4)
+	imagemPosturalFormSet = ImagemPosturalFormSet(prefix='imagem')
+		
 	if request.method == 'POST': # If the form has been submitted...
-			avaliacaoForm = AvaliacaoForm(request.POST, prefix="avaliacao")
-			historicoForm = HistoricoForm(request.POST, prefix="historico")
-			parqForm = FormularioPARQForm(request.POST, prefix="parq")
-			dadosVitaisForm = DadosVitaisForm(request.POST, prefix="dadosvitais")
-			circunferenciasForm = CircunferenciasForm(request.POST, prefix="circunferencias")
-			pesoAlturaForm = PesoAlturaForm(request.POST, prefix="pesoAltura")
-			plicometriaForm = PlicometriaForm(request.POST, prefix="plicometria")
-			objetivosForm = ObjetivosForm(request.POST, prefix="objetivos")
+		imagemPosturalFormSet = ImagemPosturalFormSet(request.POST, request.FILES, prefix='imagem')
+		avaliacaoForm = AvaliacaoForm(request.POST, prefix="avaliacao")
+		historicoForm = HistoricoForm(request.POST, prefix="historico")
+		parqForm = FormularioPARQForm(request.POST, prefix="parq")
+		dadosVitaisForm = DadosVitaisForm(request.POST, prefix="dadosvitais")
+		circunferenciasForm = CircunferenciasForm(request.POST, prefix="circunferencias")
+		pesoAlturaForm = PesoAlturaForm(request.POST, prefix="pesoAltura")
+		plicometriaForm = PlicometriaForm(request.POST, prefix="plicometria")
+		objetivosForm = ObjetivosForm(request.POST, prefix="objetivos")
+
+		
+		if avaliacaoForm.is_valid() \
+		and historicoForm.is_valid() \
+		and parqForm.is_valid() \
+		and dadosVitaisForm.is_valid() \
+		and circunferenciasForm.is_valid() \
+		and pesoAlturaForm.is_valid() \
+		and plicometriaForm.is_valid() \
+		and objetivosForm.is_valid() \
+		and imagemPosturalFormSet.is_valid() :
+			#salva a avaliação no banco primeiro para poder salvar os filhos
+			avaliacao = avaliacaoForm.save()
 
 			
-			if avaliacaoForm.is_valid() \
-			and historicoForm.is_valid() \
-			and parqForm.is_valid() \
-			and dadosVitaisForm.is_valid() \
-			and circunferenciasForm.is_valid() \
-			and pesoAlturaForm.is_valid() \
-			and plicometriaForm.is_valid() \
-			and objetivosForm.is_valid():
-				#salva a avaliação no banco primeiro para poder salvar os filhos
-				avaliacao = avaliacaoForm.save()
+			if historicoForm.has_changed():
+				historico = historicoForm.save(commit=False)
+				historico.avaliacao = avaliacao
+				historico.save()
+				historicoForm.save_m2m()
+			
+			if objetivosForm.has_changed():
+				objetivos = objetivosForm.save(commit=False)
+				objetivos.avaliacao = avaliacao
+				objetivos.save()
 
+			if parqForm.has_changed():
+				parq = parqForm.save(commit=False)
+				parq.avaliacao = avaliacao
+				parq.save()
+
+			if dadosVitaisForm.has_changed():
+				dadosVitais = dadosVitaisForm.save(commit=False)
+				dadosVitais.avaliacao = avaliacao
+				dadosVitais.save()
+
+			if circunferenciasForm.has_changed():
+				circunferencias = circunferenciasForm.save(commit=False)
+				circunferencias.avaliacao = avaliacao
+				circunferencias.save()
+
+			if pesoAlturaForm.has_changed():
+				pesoAltura = pesoAlturaForm.save(commit=False)
+				pesoAltura.avaliacao = avaliacao
+				pesoAltura.save()
 				
-				if historicoForm.is_empty() == False:
-					historico = historicoForm.save(commit=False)
-					historico.avaliacao = avaliacao
-					historico.save()
-					historicoForm.save_m2m()
-				
-				if objetivosForm.is_empty() == False:
-					objetivos = objetivosForm.save(commit=False)
-					objetivos.avaliacao = avaliacao
-					objetivos.save()
-
-				if parqForm.is_empty() == False:
-					parq = parqForm.save(commit=False)
-					parq.avaliacao = avaliacao
-					parq.save()
-
-				if dadosVitaisForm.is_empty() == False:
-					dadosVitais = dadosVitaisForm.save(commit=False)
-					dadosVitais.avaliacao = avaliacao
-					dadosVitais.save()
-
-				if circunferenciasForm.is_empty() == False:
-					circunferencias = circunferenciasForm.save(commit=False)
-					circunferencias.avaliacao = avaliacao
-					circunferencias.save()
-
-				if pesoAlturaForm.is_empty() == False:
-					pesoAltura = pesoAlturaForm.save(commit=False)
-					pesoAltura.avaliacao = avaliacao
-					pesoAltura.save()
-					
-				if plicometriaForm.is_empty() == False:
-					plicometria = plicometriaForm.save(commit=False)
-					plicometria.avaliacao = avaliacao
-					plicometria.save()
-				
-				return redirect("pessoas_clientes")
-	else:
-		avaliacaoForm = AvaliacaoForm(prefix="avaliacao")
-		historicoForm = HistoricoForm(prefix="historico")
-		parqForm = FormularioPARQForm(prefix="parq")
-		dadosVitaisForm = DadosVitaisForm(prefix="dadosvitais")
-		circunferenciasForm = CircunferenciasForm(prefix="circunferencias")
-		pesoAlturaForm = PesoAlturaForm(prefix="pesoAltura")
-		plicometriaForm = PlicometriaForm(prefix="plicometria")
-		objetivosForm = ObjetivosForm(prefix="objetivos")
+			if plicometriaForm.has_changed():
+				plicometria = plicometriaForm.save(commit=False)
+				plicometria.avaliacao = avaliacao
+				plicometria.save()
+			
+			for imagem in imagemPosturalFormSet:
+				if imagem.has_changed():
+					i = imagem.save(commit=False)
+					i.avaliacao = avaliacao
+					i.save()
+			
+			return redirect("pessoas_clientes")
+			
 	context = {
 		'avaliacaoForm' : avaliacaoForm,
 		'historicoForm' : historicoForm,
@@ -136,8 +147,9 @@ def avaliacoes(request):
 		'pesoAlturaForm' : pesoAlturaForm,
 		'plicometriaForm' : plicometriaForm,
 		'objetivosForm' : objetivosForm,
+		'imagemPosturalFormSet':imagemPosturalFormSet,
 		}
-	return render(request, 'index.html', context)
+	return render(request, 'index.html', {'forms':context})
 
 
 
@@ -149,7 +161,7 @@ def imagens(request):
 		forms = ImagemPosturalFormSet(request.POST, request.FILES)
 		if forms.is_valid():
 			for form in forms:
-				if not form.is_empty():
+				if form.has_changed():
 					form.save()
 			forms = ImagemPosturalFormSet()
 		else:

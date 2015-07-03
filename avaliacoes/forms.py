@@ -6,7 +6,8 @@ from django.forms.widgets import SelectMultiple
 from avaliacoes.models import Avaliacao, Historico, FormularioPARQ, DadosVitais, Circunferencias, PesoAltura, \
 	Plicometria, Objetivos, Doenca, AtividadeFisica, Cirurgia, Medicacao, \
 	ImagemPostural
-from file_resubmit.admin import AdminResubmitFileWidget
+from file_resubmit.admin import AdminResubmitFileWidget,\
+	AdminResubmitImageWidget
 
 
 class AvaliacaoForm(ModelForm):
@@ -25,8 +26,6 @@ class ObjetivosForm(ModelForm):
 	class Meta:
 		model = Objetivos
 		exclude = ('avaliacao',)
-	def is_empty(self):
-		return is_empty(self)
 		
 class HistoricoForm(ModelForm):
 	class Meta:
@@ -59,8 +58,6 @@ class HistoricoForm(ModelForm):
 										'data-placeholder': 'Selecione as cirurgias'
 									}),
 	        		}
-	def is_empty(self):
-		return is_empty(self)
 
 class FormularioPARQForm(ModelForm):
 	class Meta:
@@ -75,37 +72,27 @@ class FormularioPARQForm(ModelForm):
 				'p6' : '6 - Algum médico já lhe prescreveu medicamento para pressão arterial ou para o coração? ',
 				'p7' : '7 - Você tem conhecimento, por informação médica ou pela própria experiência, de algum motivo que poderia impedí-lo de participar de atividades fisicas sem supervisão médica? ',
         }
-	def is_empty(self):
-		return is_empty(self)
 
 
 class DadosVitaisForm(ModelForm):
 	class Meta:
 		model = DadosVitais
 		exclude = ('avaliacao',)
-	def is_empty(self):
-		return is_empty(self)
 
 class CircunferenciasForm(ModelForm):
 	class Meta:
 		model = Circunferencias
 		exclude = ('avaliacao',)
-	def is_empty(self):
-		return is_empty(self)
 
 class PesoAlturaForm(ModelForm):
 	class Meta:
 		model = PesoAltura
 		exclude = ('avaliacao',)
-	def is_empty(self):
-		return is_empty(self)
 
 class PlicometriaForm(ModelForm):
 	class Meta:
 		model = Plicometria
 		exclude = ('avaliacao',)
-	def is_empty(self):
-		return is_empty(self)
 		
 '''
 Este método recebe um form e o valida
@@ -116,18 +103,6 @@ se pelo moenos uma estiver preenchida, retorna false
 Se o form não passar na validação, retorna none.
 '''
 		
-def is_empty(form):
-	if form.is_valid():
-		data = form.cleaned_data
-		for k in data.items():
-			if k[1]:
-				return False
-		return True
-	else:
-		return None
-
-
-
 class DoencaForm(ModelForm):
 	class Meta:
 		model = Doenca
@@ -151,12 +126,10 @@ class MedicacaoForm(ModelForm):
 class ImagemPosturalForm(ModelForm):
 	class Meta:
 		model = ImagemPostural
-		fields = '__all__'
+		exclude = ('avaliacao',)
 		widgets = {
-            'foto': AdminResubmitFileWidget
+            'foto': AdminResubmitImageWidget
         }
-	def is_empty(self):
-		return is_empty(self)
 	
 	
 	

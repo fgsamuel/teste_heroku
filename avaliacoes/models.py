@@ -201,6 +201,7 @@ def get_file_name(instance, filename):
 	return 'imagens_posturais/teste/foto.jpg'
 
 class ImagemPostural(models.Model):
+	avaliacao = models.ForeignKey(Avaliacao, related_name='fotos')
 	foto = models.ImageField(upload_to=get_file_name)
 	descricao = models.CharField(max_length=100)
 	observacao = models.CharField(max_length=300, blank=True)

@@ -9,6 +9,8 @@ from avaliacoes.forms import DoencaForm, AtividadeFisicaForm, MedicacaoForm, \
 from avaliacoes.models import Doenca, AtividadeFisica, Cirurgia, Medicacao
 from fisioProject import settings
 
+import views as fisio_view
+
 
 urlpatterns = [
     # Examples:
@@ -16,6 +18,8 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    
+    url(r'^$', fisio_view.index, name="home"),
 
     url(r'^pessoas/', include('pessoas.urls')),
 
