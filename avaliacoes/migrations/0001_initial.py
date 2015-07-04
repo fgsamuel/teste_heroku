@@ -2,12 +2,13 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import avaliacoes.models
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pessoas', '0001_initial'),
+        ('pessoas', '__first__'),
     ]
 
     operations = [
@@ -51,6 +52,15 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Doen\xe7a',
                 'verbose_name_plural': 'Doen\xe7as',
             },
+        ),
+        migrations.CreateModel(
+            name='ImagemPostural',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('foto', models.ImageField(upload_to=avaliacoes.models.get_file_name)),
+                ('descricao', models.CharField(max_length=100)),
+                ('observacao', models.CharField(max_length=300, blank=True)),
+            ],
         ),
         migrations.CreateModel(
             name='Medicacao',
@@ -159,6 +169,11 @@ class Migration(migrations.Migration):
                 ('altura', models.IntegerField(null=True, blank=True)),
                 ('observacao', models.CharField(max_length=300, blank=True)),
             ],
+        ),
+        migrations.AddField(
+            model_name='imagempostural',
+            name='avaliacao',
+            field=models.ForeignKey(related_name='fotos', to='avaliacoes.Avaliacao'),
         ),
         migrations.AddField(
             model_name='avaliacao',

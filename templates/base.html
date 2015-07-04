@@ -83,7 +83,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Movimentum</a>
+                <a class="navbar-brand" href={% url "home" %}>Movimentum</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -95,7 +95,7 @@
                         <a href={% url "pessoas_avaliadores" %}>Avaliadores</a>
                     </li>
                     <li>
-                        <a href={% url "avaliacoes" %}>Avaliações</a>
+                        <a href={% url "avaliacoes_listar" %}>Avaliações</a>
                     </li>
                     <li>
                         <a href={% url "atividades_fisicas_listar" %}>Atividades Físicas</a>

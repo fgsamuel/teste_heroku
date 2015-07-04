@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+import json
+
+from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 
-from avaliacoes.forms import DoencaForm
-from avaliacoes.models import Doenca
 
-
-def listar(request, Classe):
+def simpleClass_listar(request, Classe):
     obj = Classe()
     if request.method == 'POST':
         busca = request.POST.get("busca", None)
@@ -19,7 +19,7 @@ def listar(request, Classe):
     context = {'lista': lista, 'obj': obj}
     return render(request, 'avaliacoes/simpleClass/index.html', context)
 
-def inserir(request, Classe):
+def simpleClass_inserir(request, Classe):
     obj = Classe()
     objForm = obj.form()
 
@@ -32,7 +32,7 @@ def inserir(request, Classe):
     context = {'form' : form, 'obj': obj}
     return render(request, 'avaliacoes/simpleClass/inserir.html', context)
 
-def editar(request, pk, Classe):
+def simpleClass_editar(request, pk, Classe):
     obj = Classe()
     objForm = obj.form()
 
@@ -47,14 +47,14 @@ def editar(request, pk, Classe):
             return redirect(obj.index)
     else:
         # inicia o form com os dados da pessoa buscada
-        form = DoencaForm(instance=obj)
+        form = objForm(instance=obj)
     context = {
         'obj' : obj,
         'form' : form
         }
     return render(request, 'avaliacoes/simpleClass/editar.html', context)
 
-def excluir(request, pk, Classe):
+def simpleClass_excluir(request, pk, Classe):
     obj = Classe()
 
     try:
@@ -68,3 +68,21 @@ def excluir(request, pk, Classe):
         context = {'obj' : obj}
         return render(request, 'avaliacoes/simpleClass/excluir.html', context)
 
+
+#retorna o form e o salva quando recebe via ajax
+def ajax_form(request, Formulario):
+    if request.method == 'POST':
+        form = Formulario(request.POST)
+        if form.is_valid():
+            obj = form.save()
+            data = {'return':0, 'obj' : {'id': obj.pk , 'nome' : u'{}'.format(obj.nome) }}
+            return HttpResponse(json.dumps(data), content_type="application/json")
+        else:
+            html = str(render(request, 'teste2.html', {'form': form}))
+            index = html.find('<')
+            html = html[index:]
+            data = {'return':1, 'html':html}
+            return HttpResponse(json.dumps(data), content_type="application/json")
+    else:
+        form = Formulario()
+        return render(request, 'avaliacoes/simpleClass/form.html', {'form': form})

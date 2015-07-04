@@ -1,10 +1,11 @@
 eclipse.preferences.version=1
 encoding//avaliacoes/forms.py=utf-8
 encoding//avaliacoes/models.py=utf-8
+encoding//avaliacoes/urls.py=utf-8
 encoding//avaliacoes/views.py=utf-8
+encoding//avaliacoes/views_simpleClass.py=utf-8
 encoding//fisioProject/settings.py=utf-8
 encoding//fisioProject/urls.py=utf-8
 encoding//pessoas/forms.py=utf-8
-encoding//pessoas/migrations/0001_initial.py=utf-8
 encoding//pessoas/models.py=utf-8
 encoding//pessoas/views.py=utf-8

@@ -1,14 +1,5 @@
 {% extends "base.html" %}
 {% block conteudo %}
-	<style>
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-th, td {
-    padding: 5px;
-}
-</style>
 
 <h1> {{obj.verbose_plural}} </h1>
 
@@ -55,7 +46,7 @@ th, td {
 	  		</tr>
 	  		{% endfor %}
 	</table>
-{% else %}
+	{% else %}
 			<br /><br />
   			Nenhum {{ obj.verbose.lower }} encontrado.
 	{% endif %}

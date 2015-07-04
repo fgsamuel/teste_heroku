@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block conteudo %}
+	<h1> Avaliações </h1>
+	
+	<a class="btn btn-default btn-sm" href={% url 'avaliacoes_inserir'%}>
+		Inserir Avaliação
+	</a>
+	<br /><br />
+	
+	<form class="form-inline" method="post" action".">{% csrf_token %}
+		<div class="form-group">
+			<label for="cliente">Cliente</label>
+			<input type="text" class="form-control" id="cliente" name="txtCliente" placeholder="Cliente..." value="{{txtCliente}}">
+		</div>
+		<div class="form-group">
+			<label for="avaliador">Avaliador</label>
+			<input type="txt" class="form-control" id="avaliador" name="txtAvaliador" placeholder="Avaliador..." value="{{txtAvaliador}}">
+		</div>
+		<div class="form-group">
+			<label for="data">Data</label>
+			<input type="text" class="form-control datepicker" id="data" name="txtData" placeholder="Data..." value="{{txtData}}">
+		</div>
+		<button type="submit" class="btn btn-default">Buscar</button>
+	</form>
+	
+	<br /><br />
+	
+	{% if lista %}
+		<table style="width:80%">
+		  <tr>
+		    <th>ID</th>
+		    <th>Cliente</th>
+		    <th>Avaliador</th>
+		    <th>Data</th>
+		    <th>Visualizar</th>		
+		    <th>Editar</th>
+		    <th>Excluir</th>
+		  </tr>
+		  {% for obj in lista %}
+		  	<tr>
+		  		<td> {{ obj.id }} </td>
+		  		<td> {{ obj.cliente.nome }} </td>
+		  		<td> {{ obj.avaliador.nome }} </td>
+		  		<td> {{ obj.data | date:"d/m/Y" }} ({{ obj.data | date:"l" }})</td>
+		  		<td>
+		        	<a class="btn btn-default btn-xs" href="#">
+		        		<span class="glyphicon glyphicon-eye-open" aria-hidden="true" />
+		        	</a>
+		      	</td>
+		  		<td>
+		        	<a class="btn btn-default btn-xs" href="#">
+		        		<span class="glyphicon glyphicon-pencil" aria-hidden="true" />
+		        	</a>
+		      	</td>
+		  		<td>
+		        	<a class="btn btn-default btn-xs" href="#">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true" />
+					</a>
+		      	</td>
+	  		</tr>
+		  {% endfor %}
+		  </table>
+	{% else %}
+		Nenhum registro encontrado.
+	{% endif %}
+{% endblock conteudo %}

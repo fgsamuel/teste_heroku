@@ -1,63 +1,50 @@
 # -*- coding: utf-8 -*-
 
-import json
+import datetime
 
 from django.forms.formsets import formset_factory
-from django.http.response import HttpResponse
 
 from avaliacoes.forms import AvaliacaoForm, HistoricoForm, FormularioPARQForm, DadosVitaisForm, \
 	CircunferenciasForm, PesoAlturaForm, PlicometriaForm, ObjetivosForm, \
 	ImagemPosturalForm
-from avaliacoes.models import ImagemPostural
+from avaliacoes.models import ImagemPostural, Avaliacao
 from views_simpleClass import *
 
 
-def ajax_form(request, Formulario):
-	if request.method == 'POST':
-		form = Formulario(request.POST)
-		if form.is_valid():
-			obj = form.save()
-			data = {'return':0, 'obj' : {'id': obj.pk , 'nome' : u'{}'.format(obj.nome) }}
-			return HttpResponse(json.dumps(data), content_type="application/json")
-		else:
-			html = str(render(request, 'teste2.html', {'form': form}))
-			index = html.find('<')
-			html = html[index:]
-			data = {'return':1, 'html':html}
-			return HttpResponse(json.dumps(data), content_type="application/json")
-	else:
-		print('é get')
-		form = Formulario()
-		return render(request, 'teste2.html', {'form': form})
+
+def avaliacoes_listar(request):
 	
+	context = {}
 	
-def teste(request):
 	if request.method == 'POST':
-		form = DoencaForm(request.POST, prefix="doenca")
-		if form.is_valid():
-			# doenca = doencaForm.save()
-			# data = {'return':0, 'obj' : {'id': doenca.pk, 'nome' : doenca.nome}}
-			data = {'return':0, 'obj' : {'id': 17, 'nome' : "NOME QUALQUER"}}
-			return HttpResponse(json.dumps(data), content_type="application/json")
+		txtCliente = request.POST.get('txtCliente')
+		txtAvaliador = request.POST.get('txtAvaliador')
+		txtData = request.POST.get('txtData')
+		
+		filtro = {}
+		
+		if txtCliente:
+			filtro['cliente__nome__icontains'] = txtCliente
+			context['txtCliente'] = txtCliente
+		if txtAvaliador:
+			filtro['avaliador__nome__icontains'] = txtAvaliador
+			context['txtAvaliador'] = txtAvaliador
+		if txtData:
+			filtro['data__exact'] = datetime.datetime.strptime(txtData, '%d/%m/%Y').strftime('%Y-%m-%d')
+			context['txtData'] = txtData
+		
+		if filtro:
+			lista = Avaliacao.objects.filter(**filtro)
 		else:
-			html = str(render(request, 'teste2.html', {'form': form}))
-			print('primeiro')
-			print(html)
-			index = html.find('<')
-			html = html[index:]
-			print('segundo')
-			print(html)
-			data = {'return':1, 'html':html}
-			print('data')
-			print(data)
-			return HttpResponse(json.dumps(data), content_type="application/json")
+			lista = Avaliacao.objects.all()
 
-	doencaForm = DoencaForm(prefix='doenca')
-	historicoForm = HistoricoForm(prefix='historico')
-	return render(request, 'teste1.html', {'doencaForm':doencaForm, 'historicoForm':historicoForm})
+	else:		
+		lista = Avaliacao.objects.all()
+		
+	context['lista'] = lista
+	return render(request, 'avaliacoes/index.html', context)
 
-
-def avaliacoes(request):
+def avaliacoes_inserir(request):
 	avaliacaoForm = AvaliacaoForm(prefix="avaliacao")
 	historicoForm = HistoricoForm(prefix="historico")
 	parqForm = FormularioPARQForm(prefix="parq")
@@ -136,7 +123,7 @@ def avaliacoes(request):
 					i.avaliacao = avaliacao
 					i.save()
 			
-			return redirect("pessoas_clientes")
+			return redirect("avaliacoes_listar")
 			
 	context = {
 		'avaliacaoForm' : avaliacaoForm,
@@ -149,7 +136,7 @@ def avaliacoes(request):
 		'objetivosForm' : objetivosForm,
 		'imagemPosturalFormSet':imagemPosturalFormSet,
 		}
-	return render(request, 'index.html', {'forms':context})
+	return render(request, 'avaliacoes/inserir.html', {'forms':context})
 
 
 
@@ -164,8 +151,6 @@ def imagens(request):
 				if form.has_changed():
 					form.save()
 			forms = ImagemPosturalFormSet()
-		else:
-			print("Inválido")
 
 	
 	# Load documents for the list page
