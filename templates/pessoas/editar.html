@@ -7,8 +7,27 @@
 		{% else %}
 			<form action="." method="post"> {% csrf_token %}
 				{{ form.as_p }}
+				
+				{% for form in telefonesForm %}
+					<div class='formset-conteiner'>
+						{{ form.as_p }}
+					</div>
+					{{ telefonesForm.management_form }}
+				{% endfor%}
+				
 				<input type="submit" value="Salvar" />
 				<input type="submit" value="Cancelar" onclick="window.location={{ obj.url_index }}; return false" />
 			</form>
 	{% endif %}	
 {% endblock conteudo %}
+
+{% block scripts %}
+<script type="text/javascript">
+    $(function() {
+        $('.formset-conteiner').formset({
+        	addText: 'Adicionar Telefone',
+        	deleteText: 'Remover Telefone',
+        });
+    })
+</script>
+{% endblock %}

@@ -11,24 +11,40 @@
     {% else %}
         <p>No documents.</p>
     {% endif %}
+<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation"><a href="#geral"	aria-controls="geral" role="tab" data-toggle="tab">Geral</a></li>
+	</ul>
 
+	<div class="tab-content">
+
+		<div role="tabpanel" class="tab-pane" id="geral">
         <!-- Upload form. Note enctype attribute! -->
         <form action="." method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class='formset-conteiner' addText="Adicionar Foto" deleteText="Remover Foto">
             	{% for form in forms %}
+            		<hr />
             		{{ form.as_p }}
         		{% endfor %}
             </div>
-            <div class='formset-conteiner' addText="Inserir Foto" deleteText="Excluir Foto">
-    
-            </div>
+
     		{{ forms.management_form }}
    
             <p><input type="submit" value="Upload" /></p>
         </form>
+        </div>
         
-
+    <form action="." method="post">{% csrf_token %}
+	<input type="checkbox" name="todelete" value="1"/>
+	<input type="checkbox" name="todelete" value="2"/>
+	<input type="checkbox" name="todelete" value="3"/>
+	<input type="checkbox" name="todelete" value="4"/>
+	<input type="checkbox" name="todelete" value="5"/>
+	<input type="checkbox" name="todelete" value="6"/>
+	<input type="checkbox" name="todelete" value="7"/>
+	<input type="checkbox" name="todelete" value="8"/>
+	<p><input type="submit" value="Upload" /></p>
+	</form>
         
 
   

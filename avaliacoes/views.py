@@ -53,7 +53,7 @@ def avaliacoes_inserir(request):
 	pesoAlturaForm = PesoAlturaForm(prefix="pesoAltura")
 	plicometriaForm = PlicometriaForm(prefix="plicometria")
 	objetivosForm = ObjetivosForm(prefix="objetivos")
-	ImagemPosturalFormSet = formset_factory(ImagemPosturalForm, extra=4)
+	ImagemPosturalFormSet = formset_factory(ImagemPosturalForm, extra=1)
 	imagemPosturalFormSet = ImagemPosturalFormSet(prefix='imagem')
 		
 	if request.method == 'POST': # If the form has been submitted...
@@ -145,12 +145,8 @@ def imagens(request):
 	forms = ImagemPosturalFormSet()
 	# Handle file upload
 	if request.method == 'POST':
-		forms = ImagemPosturalFormSet(request.POST, request.FILES)
-		if forms.is_valid():
-			for form in forms:
-				if form.has_changed():
-					form.save()
-			forms = ImagemPosturalFormSet()
+		todel = request.POST.getlist('todelete')
+		print(todel)
 
 	
 	# Load documents for the list page

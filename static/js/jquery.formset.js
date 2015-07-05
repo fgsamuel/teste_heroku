@@ -1,3 +1,12 @@
+/*
+ * Fiz uma personalização neste script.
+ * Ao colocar ele dentro de uma tab bootstrap ele não aparece o link de deletar.
+ * Vi no bug 54 (https://code.google.com/p/django-dynamic-formset/issues/detail?id=54) que um usuário identificou o problema e tratou tirando uma linha 
+ * de dentro do if.
+ * Fiz isso e está funcionando.
+ * */
+
+
 /**
  * jQuery Formset 1.3-pre
  * @author Stanislaus Madueke (stan DOT madueke AT gmail DOT com)
@@ -117,10 +126,14 @@
             }
             if (hasChildElements(row)) {
                 row.addClass(options.formCssClass);
-                if (row.is(':visible')) {
-                    insertDeleteLink(row);
-                    applyExtraClasses(row, i);
-                }
+//                if (row.is(':visible')) {
+//                    insertDeleteLink(row);
+//                    applyExtraClasses(row, i);
+//                }
+	              if (row.is(':visible')) {
+		              applyExtraClasses(row, i);
+	              }
+	              insertDeleteLink(row);
             }
         });
 
