@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect
 from django.forms.formsets import formset_factory
+from django.forms.models import inlineformset_factory
+from django.shortcuts import render, redirect
+from pessoas.models import TelefoneCliente, Cliente
 
 
 def index(request, Classe):
@@ -46,6 +48,8 @@ def inserir(request, Classe):
 def editar(request, pessoaId, Classe):
     obj = Classe()
     objForm = obj.form()
+    TelefoneModel = obj.telefone_model()
+    FormSet = inlineformset_factory(Classe, TelefoneModel, fields='__all__', extra=0, can_delete=True)
 
     try:
         pessoa = Classe.objects.get(pk=pessoaId)
@@ -54,22 +58,29 @@ def editar(request, pessoaId, Classe):
 
     if request.method == 'POST':
         # para editar ele tem que receber a pessoa que está editando no parametro instance
-        form = objForm(request.POST, instance=pessoa)
-        if form.is_valid():
+        form = objForm(request.POST, instance=pessoa, prefix='obj')
+        telefones = FormSet(request.POST, instance=pessoa, prefix='telefone')
+        if form.is_valid() and telefones.is_valid():
             form.save()
+            
+            #salva os alterados e apaga os que foram removidos.
+            telefones.save()
+            
             return redirect(obj.index)
         else:
-            context = {'form' : form, 'obj':obj}
+            context = {'form' : form,'pessoa' : pessoa, 'obj':obj}
             return render(request, 'pessoas/editar.html', context)
     else:
         # inicia o form com os dados da pessoa buscada
-        form = objForm(instance=pessoa)
-    context = {
-        'pessoa' : pessoa,
-        'form' : form,
-        'obj' : obj,
-        }
-    return render(request, 'pessoas/editar.html', context)
+        form = objForm(instance=pessoa, prefix='obj')
+        telefones = FormSet(instance=pessoa, prefix='telefone')
+        context = {
+            'pessoa' : pessoa,
+            'form' : form,
+            'obj' : obj,
+            'telefonesForm': telefones,
+            }
+        return render(request, 'pessoas/editar.html', context)
 
 def visualizar(request, pessoaId, Classe):
     obj = Classe()

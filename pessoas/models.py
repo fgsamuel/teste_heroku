@@ -69,6 +69,8 @@ class Cliente(Pessoa):
 	def telefone_form(self):
 		from pessoas.forms import TelefoneClienteForm
 		return TelefoneClienteForm
+	def telefone_model(self):
+		return TelefoneCliente
 	
 class Avaliador(Pessoa):
 	index = 'pessoas_avaliadores'
@@ -83,6 +85,8 @@ class Avaliador(Pessoa):
 	def telefone_form(self):
 		from pessoas.forms import TelefoneAvaliadorForm
 		return TelefoneAvaliadorForm
+	def telefone_model(self):
+		return TelefoneAvaliador
 	
 	
 	class Meta:

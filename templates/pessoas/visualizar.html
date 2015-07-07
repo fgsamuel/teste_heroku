@@ -46,8 +46,11 @@
 </dl>
 
 
-<input type="submit" value="Voltar"
-	onclick="window.location='{{ obj.url_index }}'; return false" />
+<input type="submit" value="Voltar"	onclick="window.location='{{ pessoa.url_index }}'; return false" />
+
+<input type="submit" value="Editar" onclick="window.location='{{ pessoa.url_editar }}'; return false" />
+
+<input type="submit" value="Excluir" onclick="window.location='{{ pessoa.url_excluir }}'; return false" />
 
 {% endblock conteudo %}
 
