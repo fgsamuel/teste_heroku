@@ -2,7 +2,6 @@
 from django.forms.formsets import formset_factory
 from django.forms.models import inlineformset_factory
 from django.shortcuts import render, redirect
-from pessoas.models import TelefoneCliente, Cliente
 
 
 def index(request, Classe):

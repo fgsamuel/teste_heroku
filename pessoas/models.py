@@ -6,12 +6,12 @@ from django.db import models
 # Classe abstrata para reunir todas informações comuns à pessoas
 class Pessoa(models.Model):
 	nome = models.CharField(max_length=200)
-	data_nascimento = models.DateField(blank=True, null=True)
-	email = models.CharField(max_length=150, blank=True)
-	cep = models.CharField(max_length=8, blank=True)
-	numero = models.CharField(max_length=10, blank=True)
+	data_nascimento = models.DateField(blank=True, null=True, verbose_name=u'Data de nascimento')
+	email = models.CharField(max_length=150, blank=True, verbose_name=u'E-mail')
+	cep = models.CharField(max_length=8, blank=True, verbose_name=u'CEP')
+	numero = models.CharField(max_length=10, blank=True, verbose_name=u'Número')
 	complemento = models.CharField(max_length=50, blank=True)
-	observacao = models.CharField(max_length=300, blank=True)
+	observacao = models.CharField(max_length=300, blank=True, verbose_name=u'Observação')
 	
 	#nome da classe no singular
 	def verbose(self):
@@ -95,9 +95,9 @@ class Avaliador(Pessoa):
 
 
 class Telefone(models.Model):
-	ddd = models.CharField(max_length=2)
-	numero = models.CharField(max_length=9)
-	observacao = models.CharField(max_length=300, blank=True)
+	ddd = models.CharField(max_length=2, verbose_name=u'DDD')
+	numero = models.CharField(max_length=9, verbose_name=u'Número')
+	observacao = models.CharField(max_length=300, blank=True, verbose_name=u'Observação')
 	def __unicode__(self):
 		#desta forma atende tanto número com 8 quanto com 9 dígitos
 		return "({}){}-{}".format(self.ddd, self.numero[:-4], self.numero[-4:])

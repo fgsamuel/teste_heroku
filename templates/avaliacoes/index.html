@@ -43,7 +43,7 @@
 		  		<td> {{ obj.avaliador.nome }} </td>
 		  		<td> {{ obj.data | date:"d/m/Y" }} ({{ obj.data | date:"l" }})</td>
 		  		<td>
-		        	<a class="btn btn-default btn-xs" href="#">
+		        	<a class="btn btn-default btn-xs" href="{% url 'avaliacoes_visualizar' obj.id %}">
 		        		<span class="glyphicon glyphicon-eye-open" aria-hidden="true" />
 		        	</a>
 		      	</td>

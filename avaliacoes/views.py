@@ -2,14 +2,14 @@
 
 import datetime
 
+from django.core import serializers
 from django.forms.formsets import formset_factory
 
 from avaliacoes.forms import AvaliacaoForm, HistoricoForm, FormularioPARQForm, DadosVitaisForm, \
 	CircunferenciasForm, PesoAlturaForm, PlicometriaForm, ObjetivosForm, \
 	ImagemPosturalForm
-from avaliacoes.models import ImagemPostural, Avaliacao
+from avaliacoes.models import ImagemPostural, Avaliacao, Objetivos
 from views_simpleClass import *
-
 
 
 def avaliacoes_listar(request):
@@ -139,6 +139,11 @@ def avaliacoes_inserir(request):
 	return render(request, 'avaliacoes/inserir.html', {'forms':context})
 
 
+def avaliacoes_visualizar(request, pk):
+	o = Objetivos.objects.get(pk=pk)
+	#o.fields = dict((field.name, field.value_to_string(o)) for field in o._meta.fields)
+	context = {'obj':o}
+	return render(request, 'avaliacoes/visualizar.html', context)
 
 def imagens(request):
 	ImagemPosturalFormSet = formset_factory(ImagemPosturalForm, extra=1)

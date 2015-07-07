@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+	
+	{% for f in obj.get_fields %}
+		
+	{% endfor %}
+	
+	{{obj|getattr:'hipertrofia'}}
+
+{% endblock %}

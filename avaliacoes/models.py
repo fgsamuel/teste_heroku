@@ -4,7 +4,6 @@ from django.core.urlresolvers import reverse
 from django.db import models
 
 from pessoas.models import Avaliador, Cliente
-from types import InstanceType
 
 
 #-------------- Classes básicas do sistema------------------
@@ -121,22 +120,25 @@ class Avaliacao(models.Model):
 class Objetivos(models.Model):
 	avaliacao = models.OneToOneField(Avaliacao, primary_key=True)
 	hipertrofia = models.BooleanField(blank=True)
-	condicionamento_fisico = models.BooleanField(blank=True)
-	diminuicao_percentual_gordura = models.BooleanField(blank=True)
+	condicionamento_fisico = models.BooleanField(blank=True, verbose_name=u'Condicionamento Físico')
+	diminuicao_percentual_gordura = models.BooleanField(blank=True, verbose_name=u'Redução do percentual de Gordura')
 	melhorar_postura = models.BooleanField(blank=True)
 	enrijecimento = models.BooleanField(blank=True)
-	treino_forca = models.BooleanField(blank=True)
+	treino_forca = models.BooleanField(blank=True, verbose_name=u'Treino de força')
 	flexibilidade = models.BooleanField(blank=True)
-	observacao = models.CharField(max_length=300, blank=True)
+	observacao = models.CharField(max_length=300, blank=True, verbose_name=u'Observação')
+	def get_fields(self):
+		return self._meta.get_fields()
+
 
 class Historico(models.Model):
 	avaliacao = models.OneToOneField(Avaliacao, primary_key=True)
-	atividades_fisicas = models.ManyToManyField(AtividadeFisica, blank=True)
-	doencas = models.ManyToManyField(Doenca, related_name='historicodoenca', blank=True)
-	historico_familiar_doencas = models.ManyToManyField(Doenca, related_name='historicodoencafamiliar', blank=True)
+	atividades_fisicas = models.ManyToManyField(AtividadeFisica, blank=True, verbose_name=u'Atividades Físicas')
+	doencas = models.ManyToManyField(Doenca, related_name='historicodoenca', blank=True, verbose_name=u'Doenças')
+	historico_familiar_doencas = models.ManyToManyField(Doenca, related_name='historicodoencafamiliar', blank=True, verbose_name=u'Histórico familiar de doenças')
 	cirurgias = models.ManyToManyField(Cirurgia, blank=True)
-	medicacoes = models.ManyToManyField(Medicacao, blank=True)
-	observacao = models.CharField(max_length=300, blank=True)
+	medicacoes = models.ManyToManyField(Medicacao, blank=True, verbose_name=u'Medicações')
+	observacao = models.CharField(max_length=300, blank=True, verbose_name=u'Observação')
 
 
 
@@ -154,22 +156,22 @@ class FormularioPARQ(models.Model):
 
 class DadosVitais(models.Model):
 	avaliacao = models.OneToOneField(Avaliacao, primary_key=True)
-	frequencia_cardiaca = models.IntegerField(null=True, blank=True)
-	pa_sistole = models.IntegerField(null=True, blank=True)
-	pa_diastole = models.IntegerField(null=True, blank=True)
-	observacao = models.CharField(max_length=300, blank=True)
+	frequencia_cardiaca = models.IntegerField(null=True, blank=True, verbose_name=u'Frequência cardíaca')
+	pa_sistole = models.IntegerField(null=True, blank=True, verbose_name=u'Pressão Arterial - Sistole')
+	pa_diastole = models.IntegerField(null=True, blank=True, verbose_name=u'Pressão Arterial - Diastole')
+	observacao = models.CharField(max_length=300, blank=True, verbose_name=u'Observação')
 	
 
 class Circunferencias(models.Model):
 	avaliacao = models.OneToOneField(Avaliacao, primary_key=True)
-	pescoco = models.IntegerField(null=True, blank=True)
+	pescoco = models.IntegerField(null=True, blank=True, verbose_name=u'Pescoço')
 	ombros = models.IntegerField(null=True, blank=True)
-	torax_relaxado = models.IntegerField(null=True, blank=True)
-	torax_contraido = models.IntegerField(null=True, blank=True)
-	biceps_direito_relaxado = models.IntegerField(null=True, blank=True)
-	biceps_direito_contraido = models.IntegerField(null=True, blank=True)
-	biceps_esquerdo_relaxado = models.IntegerField(null=True, blank=True)
-	biceps_esquerdo_contraido = models.IntegerField(null=True, blank=True)
+	torax_relaxado = models.IntegerField(null=True, blank=True, verbose_name=u'Tórax relaxado')
+	torax_contraido = models.IntegerField(null=True, blank=True, verbose_name=u'Tórax contraído')
+	biceps_direito_relaxado = models.IntegerField(null=True, blank=True, verbose_name=u'Bíceps direito relaxado')
+	biceps_direito_contraido = models.IntegerField(null=True, blank=True, verbose_name=u'Bíceps direito contraído')
+	biceps_esquerdo_relaxado = models.IntegerField(null=True, blank=True, verbose_name=u'Bíceps esquerdo relaxado')
+	biceps_esquerdo_contraido = models.IntegerField(null=True, blank=True, verbose_name=u'Bíceps esquerdo contraído')
 	cintura = models.IntegerField(null=True, blank=True)
 	abdomen = models.IntegerField(null=True, blank=True)
 	quadril = models.IntegerField(null=True, blank=True)
@@ -177,25 +179,25 @@ class Circunferencias(models.Model):
 	coxa_esquerda = models.IntegerField(null=True, blank=True)
 	panturrilha_direita = models.IntegerField(null=True, blank=True)
 	panturrilha_esquerda = models.IntegerField(null=True, blank=True)
-	observacao = models.CharField(max_length=300, blank=True)
+	observacao = models.CharField(max_length=300, blank=True, verbose_name=u'Observação')
 
 class PesoAltura(models.Model):
 	avaliacao = models.OneToOneField(Avaliacao, primary_key=True)
 	peso = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
 	altura = models.IntegerField(blank=True, null=True)
-	observacao = models.CharField(max_length=300, blank=True)
+	observacao = models.CharField(max_length=300, blank=True, verbose_name=u'Observação')
 
 class Plicometria(models.Model):
 	subscapular = models.IntegerField(null=True, blank=True)
-	triceps_braquial = models.IntegerField(null=True, blank=True)
+	triceps_braquial = models.IntegerField(null=True, blank=True, verbose_name=u'Tríceps braquial')
 	peitoral = models.IntegerField(null=True, blank=True)
-	axilar_media = models.IntegerField(null=True, blank=True)
-	supra_iliaca = models.IntegerField(null=True, blank=True)
+	axilar_media = models.IntegerField(null=True, blank=True, verbose_name=u'Axiliar média')
+	supra_iliaca = models.IntegerField(null=True, blank=True, verbose_name=u'Supra ilíaca')
 	abdominal = models.IntegerField(null=True, blank=True)
 	coxa = models.IntegerField(null=True, blank=True)
 	panturrilha = models.IntegerField(null=True, blank=True)
 	biciptal = models.IntegerField(null=True, blank=True)
-	observacao = models.CharField(max_length=300, blank=True)
+	observacao = models.CharField(max_length=300, blank=True, verbose_name=u'Observação')
 
 def get_file_name(instance, filename):
 	return 'imagens_posturais/teste/foto.jpg'
@@ -203,5 +205,5 @@ def get_file_name(instance, filename):
 class ImagemPostural(models.Model):
 	avaliacao = models.ForeignKey(Avaliacao, related_name='fotos')
 	foto = models.ImageField(upload_to=get_file_name)
-	descricao = models.CharField(max_length=100)
-	observacao = models.CharField(max_length=300, blank=True)
+	descricao = models.CharField(max_length=100, verbose_name=u'Descrição')
+	observacao = models.CharField(max_length=300, blank=True, verbose_name=u'Observação')
