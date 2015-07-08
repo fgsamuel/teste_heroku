@@ -1,11 +1,19 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block conteudo %}
-	
-	{% for f in obj.get_fields %}
+	{{ MEDIA_URL }}
+	{{ obj }}<br>
+	{{ obj.get_objetivos }}<br />
+	{{ obj.get_historico }}<br />
+	{{ obj.get_formularioparq }}<br />
+	{{ obj.get_dadosvitais }}<br />
+	{{ obj.get_circunferencias }}<br />
+	{{ obj.get_pesoaltura }}<br />
+	{{ obj.get_plicometria }}<br />
+	{{ obj.get_fotos }}<br />
+	{% for f in obj.get_fotos.all %}
 		
 	{% endfor %}
-	
-	{{obj|getattr:'hipertrofia'}}
 
 {% endblock %}

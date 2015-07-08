@@ -60,16 +60,16 @@
 					
 					<br>
 					<br>
-					<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-atividades_fisicas' type="button" class="btn btn-primary" url={% url 'form_ajax_atividade_fisica'%} onclick="ajax(this)">Adicionar
+					<button type="button" atualizarIds='#id_historico-atividades_fisicas' type="button" class="btn btn-primary" url={% url 'form_ajax_atividade_fisica'%} onclick="ajax(this)">Adicionar
 						Atividade Física
 					</button>
-					<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-doencas, #id_historico-historico_familiar_doencas' class="btn btn-primary" url={% url 'form_ajax_doenca'%} onclick="ajax(this)">Adicionar
+					<button type="button" atualizarIds='#id_historico-doencas, #id_historico-historico_familiar_doencas' class="btn btn-primary" url={% url 'form_ajax_doenca'%} onclick="ajax(this)">Adicionar
 						Doença
 					</button>
-					<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-cirurgias' type="button" class="btn btn-primary" url={% url 'form_ajax_cirurgia'%} onclick="ajax(this)">Adicionar
+					<button type="button" atualizarIds='#id_historico-cirurgias' type="button" class="btn btn-primary" url={% url 'form_ajax_cirurgia'%} onclick="ajax(this)">Adicionar
 						Cirurgia
 					</button>
-					<button type="button" modalId='#myModal' divId='#divForm' atualizarIds='#id_historico-medicacoes' type="button" class="btn btn-primary" url={% url 'form_ajax_medicacao'%} onclick="ajax(this)">Adicionar
+					<button type="button" atualizarIds='#id_historico-medicacoes' type="button" class="btn btn-primary" url={% url 'form_ajax_medicacao'%} onclick="ajax(this)">Adicionar
 						Medicação
 					</button>
 					
@@ -174,7 +174,64 @@
         $(lista).formset({
         	addText: $(lista).attr('addText'),
         	deleteText: $(lista).attr('deleteText'),
+        	prefix: '{{ forms.imagemPosturalFormSet.prefix }}'
         });
     })
+</script>
+
+<script type="text/javascript">
+$("#formAjax").submit(function() {
+	form = $(this);
+
+    $.ajax({
+           type: $(this).attr('method'),
+           url: $(this).attr('action'),
+           data: $(this).serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+           		//se for zero, é sucesso, e manda um objeto com id e nome
+           		 if(data['return'] == 0){
+           		 	//retiro o modal da tela
+           		 	$('#myModal').modal('hide');
+
+           		 	//monto uma string com a opção
+           		 	var option = '<option value="' + data['obj']['id'] + '">' + data['obj']['nome'] + '</option>'
+           		 	
+           		 	ids = $(form).attr('atualizarIds');
+           		 	
+           		 	//adiciono a opção no select
+           		 	$(ids).append(option)
+           		 	
+           		 }else{
+           		 	$('#divForm').html(data['html'])
+           		 }
+           		 
+           },
+           error : function(data){
+           	alert('erro')
+           }
+         });
+
+    return false; // avoid to execute the actual submit of the form.
+});
+</script>
+
+<script type="text/javascript">
+function ajax(obj){
+	url = $(obj).attr('url');
+	ids = $(obj).attr('atualizarIds');
+	
+	
+	$('#formAjax').attr('atualizarIds', ids);
+	$('#formAjax').attr('action', url);
+	
+	$('#verbose').html($(obj).text());
+	//$().html($(obj).text());
+	
+	$.get(url, function(data, status){
+       $('#divForm').html(data)
+       $('#myModal').modal('show');
+     });
+}
 </script>
 {% endblock %}

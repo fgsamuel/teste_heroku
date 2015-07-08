@@ -63,15 +63,6 @@ class FormularioPARQForm(ModelForm):
 	class Meta:
 		model = FormularioPARQ
 		exclude = ('avaliacao',)
-		labels = {
-            	'p1' : '1 - Seu médico já disse que você possui um problema cardíaco e recomendou atividades físicas apenas sob supervisão médica?',
-				'p2' : '2 - Você tem dor no peito provocada por atividades físicas?',
-				'p3' : '3 - Você sentiu dor no peito no último mês?',
-				'p4' : '4 - Você já perdeu a consciência em alguma ocasião ou sofreu alguma queda em virtude de tontura?',
-				'p5' : '5 - Você tem algum problema ósseo ou articular que poderia agravar-se com a prática de atividades físicas?',
-				'p6' : '6 - Algum médico já lhe prescreveu medicamento para pressão arterial ou para o coração? ',
-				'p7' : '7 - Você tem conhecimento, por informação médica ou pela própria experiência, de algum motivo que poderia impedí-lo de participar de atividades fisicas sem supervisão médica? ',
-        }
 
 
 class DadosVitaisForm(ModelForm):

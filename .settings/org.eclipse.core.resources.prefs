@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//avaliacoes/forms.py=utf-8
 encoding//avaliacoes/models.py=utf-8
+encoding//avaliacoes/templatetags/avaliacoes_filters.py=utf-8
 encoding//avaliacoes/urls.py=utf-8
 encoding//avaliacoes/views.py=utf-8
 encoding//avaliacoes/views_simpleClass.py=utf-8

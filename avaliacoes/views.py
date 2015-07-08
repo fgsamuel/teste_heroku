@@ -2,8 +2,9 @@
 
 import datetime
 
-from django.core import serializers
 from django.forms.formsets import formset_factory
+from django.template import loader
+from django.template.context import RequestContext
 
 from avaliacoes.forms import AvaliacaoForm, HistoricoForm, FormularioPARQForm, DadosVitaisForm, \
 	CircunferenciasForm, PesoAlturaForm, PlicometriaForm, ObjetivosForm, \
@@ -118,10 +119,15 @@ def avaliacoes_inserir(request):
 				plicometria.save()
 			
 			for imagem in imagemPosturalFormSet:
+				print(imagem)
 				if imagem.has_changed():
+					print("teve alteração")
 					i = imagem.save(commit=False)
 					i.avaliacao = avaliacao
 					i.save()
+					print("Salvou")
+				else:
+					print("não teve alteração")
 			
 			return redirect("avaliacoes_listar")
 			
@@ -140,10 +146,15 @@ def avaliacoes_inserir(request):
 
 
 def avaliacoes_visualizar(request, pk):
-	o = Objetivos.objects.get(pk=pk)
+	a = Avaliacao.objects.get(pk=pk)
+	#a = Objetivos.objects.get(pk=pk)
 	#o.fields = dict((field.name, field.value_to_string(o)) for field in o._meta.fields)
-	context = {'obj':o}
-	return render(request, 'avaliacoes/visualizar.html', context)
+	context = {'obj':a}
+	#return render(request, 'avaliacoes/visualizar.html', context)
+
+	t = loader.get_template('avaliacoes/visualizar.html')
+	c = RequestContext(request, context)
+	return t.render(c)
 
 def imagens(request):
 	ImagemPosturalFormSet = formset_factory(ImagemPosturalForm, extra=1)
