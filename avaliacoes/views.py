@@ -150,11 +150,7 @@ def avaliacoes_visualizar(request, pk):
 	#a = Objetivos.objects.get(pk=pk)
 	#o.fields = dict((field.name, field.value_to_string(o)) for field in o._meta.fields)
 	context = {'obj':a}
-	#return render(request, 'avaliacoes/visualizar.html', context)
-
-	t = loader.get_template('avaliacoes/visualizar.html')
-	c = RequestContext(request, context)
-	return t.render(c)
+	return render(request, 'avaliacoes/visualizar.html', context)
 
 def imagens(request):
 	ImagemPosturalFormSet = formset_factory(ImagemPosturalForm, extra=1)

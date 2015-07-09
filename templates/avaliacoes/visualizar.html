@@ -1,19 +1,66 @@
 {% extends "base.html" %}
-{% load static %}
+{% load avaliacoes_filters %}
 
 {% block conteudo %}
-	{{ MEDIA_URL }}
-	{{ obj }}<br>
-	{{ obj.get_objetivos }}<br />
-	{{ obj.get_historico }}<br />
-	{{ obj.get_formularioparq }}<br />
-	{{ obj.get_dadosvitais }}<br />
-	{{ obj.get_circunferencias }}<br />
-	{{ obj.get_pesoaltura }}<br />
-	{{ obj.get_plicometria }}<br />
-	{{ obj.get_fotos }}<br />
-	{% for f in obj.get_fotos.all %}
+	
+	<h1>Visualizar Avaliação</h1>
+	
+	<h3>Dados Gerais</h3>
+	
+	<dl class="dl-horizontal">
+	
+		<dt>Cliente</dt>
+		<dd>{{ obj.cliente.nome }}</dd>
 		
-	{% endfor %}
-
+		<dt>Avaliador</dt>
+		<dd>{{ obj.avaliador.nome }}</dd>
+		
+		<dt>Data</dt>
+		<dd>{{ obj.data | date:'d/m/Y' }} ({{ obj.data | date:"l" }})</dd>
+		
+		{% if obj.observacao %}
+			<dt>Observação</dt>
+			<dd>{{ obj.observacao }}</dd>
+		{% endif %}
+	
+	</dl>
+	
+	<h3>Anamnese</h3>
+	<h4>Objetivos</h4>
+	
+	 <ul>
+	 	{% if obj.get_objetivos.hipertrofia %}
+			<li>Hipertrofia</li>
+		{% endif %}
+		
+		{% if obj.get_objetivos.condicionamento_fisico %}
+			<li>Condicionamento Físico</li>
+		{% endif %}
+		
+		{% if obj.get_objetivos.diminuicao_percentual_gordura %}
+			<li>Redução do percentual de Gordura</li>
+		{% endif %}
+		
+		{% if obj.get_objetivos.melhorar_postura %}
+			<li>Melhorar postura</li>
+		{% endif %}
+		
+		{% if obj.get_objetivos.enrijecimento %}
+			<li>Enrijecimento</li>
+		{% endif %}
+		
+		{% if obj.get_objetivos.treino_forca %}
+			<li>Treino de Força</li>
+		{% endif %}
+		
+		{% if obj.get_objetivos.flexibilidade %}
+			<li>Flexibilidade</li>
+		{% endif %}
+	</ul> 
+		{% if obj.get_objetivos.observacao %}
+			<b>Observação:</b> 
+			<p>{{obj.get_objetivos.observacao}}</p>
+		{% endif %}
+	
+	
 {% endblock %}
