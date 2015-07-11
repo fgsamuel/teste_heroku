@@ -96,13 +96,6 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'localhost',
-    },
-    'producao': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'fisio',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
     }
 }
 

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% load avaliacoes_filters %}
 
 {% block conteudo %}
@@ -7,23 +8,27 @@
 	
 	<h3>Dados Gerais</h3>
 	
-	<dl class="dl-horizontal">
+	<p>
+	<b>Cliente</b><br>
+	{{ obj.cliente.nome }}
+	</p>
 	
-		<dt>Cliente</dt>
-		<dd>{{ obj.cliente.nome }}</dd>
-		
-		<dt>Avaliador</dt>
-		<dd>{{ obj.avaliador.nome }}</dd>
-		
-		<dt>Data</dt>
-		<dd>{{ obj.data | date:'d/m/Y' }} ({{ obj.data | date:"l" }})</dd>
-		
-		{% if obj.observacao %}
-			<dt>Observação</dt>
-			<dd>{{ obj.observacao }}</dd>
-		{% endif %}
+	<p>
+	<b>Avaliador</b><br>
+	{{ obj.avaliador.nome }}
+	</p>
 	
-	</dl>
+	<p>
+	<b>Data</b><br>
+	{{ obj.data | date:'d/m/Y' }} ({{ obj.data | date:"l" }})
+	</p>
+		
+	{% if obj.observacao %}
+		<p>
+		<b>Observação</b><br>
+		{{ obj.observacao }}
+		</p>
+	{% endif %}
 	
 	<h3>Anamnese</h3>
 	<h4>Objetivos</h4>
@@ -62,5 +67,125 @@
 			<p>{{obj.get_objetivos.observacao}}</p>
 		{% endif %}
 	
+	<h4>Histórico</h4>
+	
+	<p><b>Atividades Físicas</b></p>
+		<ul>
+			{% for d in obj.get_historico.atividades_fisicas.all %}
+				<li>
+					{{ d.nome }}
+				</li>
+			{% endfor %}
+		</ul>
+		
+		<p><b>Doenças</b></p>
+		<ul>
+			{% for d in obj.get_historico.doencas.all %}
+				<li>
+					{{ d.nome }}
+				</li>
+			{% endfor %}
+		</ul>
+		
+		<p><b>Histórico familiar de doenças</b></p>
+		<ul>
+			{% for d in obj.get_historico.historico_familiar_doencas.all %}
+				<li>
+					{{ d.nome }}
+				</li>
+			{% endfor %}
+		</ul>
+		
+		<p><b>Cirurgias</b></p>
+		<ul>
+			{% for d in obj.get_historico.cirurgias.all %}
+				<li>
+					{{ d.nome }}
+				</li>
+			{% endfor %}
+		</ul>
+		
+		<p><b>Medicações</b></p>
+		<ul>
+			{% for d in obj.get_historico.medicacoes.all %}
+				<li>
+					{{ d.nome }}
+				</li>
+			{% endfor %}
+		</ul>
+	
+	<h4>Formulário PAR-Q</h4>
+	
+	{% for p in obj.get_formularioparq.get_fields %}
+		{% if not forloop.first and not forloop.last %}
+			<p>{{ p.verbose_name }} : <b>{{obj.get_formularioparq | field_parq:p.name }}</b><p>
+		{% endif %}
+	{% endfor %}
+	
+	{% if obj.get_formularioparq.observacao %}
+		<p><b>Observação</b>
+		{{obj.get_formularioparq.observacao}}
+		</p>
+	{% endif %}
+	
+	
+	<h4>Dados Vitais</h4>
+	
+	{% for p in obj.get_dadosvitais.get_fields %}
+		{% if not forloop.first and not forloop.last %}
+			<p>{{ p.verbose_name }} : <b>{{obj.get_dadosvitais | field:p.name }}</b><p>
+		{% endif %}
+	{% endfor %}
+	
+	{% if obj.get_dadosvitais.observacao %}
+		<p><b>Observação</b>
+		{{obj.get_dadosvitais.observacao}}
+		</p>
+	{% endif %}
+	
+	<h3>Antropometria</h3>
+	<h4>Circunferências</h4>
+	
+	{% for p in obj.get_circunferencias.get_fields %}
+		{% if not forloop.last %}
+			<p>{{ p.verbose_name }} : <b>{{obj.get_circunferencias | field:p.name }}</b><p>
+		{% endif %}
+	{% endfor %}
+	
+	{% if obj.get_circunferencias.observacao %}
+		<p><b>Observação</b>
+		{{obj.get_circunferencias.observacao}}
+		</p>
+	{% endif %}
+	
+	<h4>Peso e Altura</h4>
+	<p>Peso : <b>{{obj.get_pesoaltura.peso}}</b><p>
+	<p>Altura : <b>{{obj.get_pesoaltura.altura}}</b><p>
+	<p>Observação : {{obj.get_pesoaltura.observacao}}<p>
+	
+	<h4>Plicometria</h4>
+	{% for p in obj.get_plicometria.get_fields %}
+		{% if not forloop.first and not forloop.last %}
+			<p>{{ p.verbose_name }} : <b>{{obj.get_plicometria | field:p.name }}</b><p>
+		{% endif %}
+	{% endfor %}
+	
+	{% if obj.get_plicometria.observacao %}
+		<p><b>Observação</b>
+		{{obj.get_plicometria.observacao}}
+		</p>
+	{% endif %}
+	
+	
+	<h3>Avaliação Postural</h3>
+	<h4>Fotos</h4>
+	
+	{% for f in obj.get_fotos.all %}
+		<p><img src="{{ MEDIA_URL }}{{f.foto}}" /></p>
+		<p><b>Descrição:</b> {{f.descricao}}</p>
+		{% if f.observacao%}
+			<p><b>Observação:</b> {{f.observacao}}</p>
+		{% endif %}
+	{% endfor %}
 	
 {% endblock %}

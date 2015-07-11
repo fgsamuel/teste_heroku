@@ -14,6 +14,7 @@ urlpatterns = [
     
     url(r'^inserir/$', avaliacoes_view.avaliacoes_inserir, name="avaliacoes_inserir"),
     url(r'^visualizar/(?P<pk>[0-9]+)/$', avaliacoes_view.avaliacoes_visualizar, name="avaliacoes_visualizar"),
+    url(r'^editar/(?P<pk>[0-9]+)/$', avaliacoes_view.avaliacoes_editar, name="avaliacoes_editar"),
 
     url(r'^doencas/$', avaliacoes_view.simpleClass_listar, {'Classe': Doenca}, name="doencas_listar"),
     url(r'^doencas/inserir/$', avaliacoes_view.simpleClass_inserir, {'Classe': Doenca}, name="doencas_inserir"),

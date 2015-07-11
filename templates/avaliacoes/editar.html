@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block conteudo %}
+
+{% comment %}
+{% for k, v in forms.items %}
+	{% for f in v %}
+		{% if f.errors %}
+			{{ f.label_tag }}
+			{{ f.errors }}
+		{% endif %}
+	{% endfor %}
+{% endfor %}
+{% endcomment %}
+
+<form action="." method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href="#geral"	aria-controls="geral" role="tab" data-toggle="tab">Geral</a></li>
+		<li role="presentation"><a href="#anamnese"	aria-controls="anamnese" role="tab" data-toggle="tab">Anamnese</a></li>
+		<li role="presentation"><a href="#antropometria" aria-controls="antropometria" role="tab" data-toggle="tab">Antropometria</a></li>
+		<li role="presentation"><a href="#postura" aria-controls="postura" role="tab" data-toggle="tab">Avaliação Postural</a></li>
+	</ul>
+
+	<div class="tab-content">
+
+		<div role="tabpanel" class="tab-pane active" id="geral">
+			<h2>Informações gerais</h2>
+			{{forms.avaliacaoForm.as_p}}
+		</div>
+
+		<div role="tabpanel" class="tab-pane" id="anamnese">
+			<h2>Anamnese</h2>
+
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href="#objetivos"	aria-controls="objetivos" role="tab" data-toggle="tab">Objetivos</a></li>
+				<li role="presentation"><a href="#historico" aria-controls="historico" role="tab" data-toggle="tab">Histórico</a></li>
+				<li role="presentation"><a href="#parq" aria-controls="parq" role="tab" data-toggle="tab">Formulário PAR-Q</a></li>
+				<li role="presentation"><a href="#dadosVitais" aria-controls="dadosVitais" role="tab" data-toggle="tab">Dados Vitais</a></li>
+			</ul>
+
+			<div class="tab-content">
+
+				<div role="tabpanel" class="tab-pane active" id="objetivos">
+					{{ forms.objetivosForm.as_p }}
+				</div>
+
+
+				<div role="tabpanel" class="tab-pane" id="historico">
+
+					{% comment %} Cada um dos botões a seguir tem informações q são
+					passadas para o método 'ajax' e posteriormente para o submit do
+					formulário 'formAjax' as funções estão no arquivo
+					simpleClassAjaxForm que está na tag scripts, mas é colocada na
+					parte inferior no template. {% endcomment %}
+					
+					<br>
+					<br>
+					<button type="button" atualizarIds='#id_historico-atividades_fisicas' type="button" class="btn btn-primary" url={% url 'form_ajax_atividade_fisica'%} onclick="ajax(this)">Adicionar
+						Atividade Física
+					</button>
+					<button type="button" atualizarIds='#id_historico-doencas, #id_historico-historico_familiar_doencas' class="btn btn-primary" url={% url 'form_ajax_doenca'%} onclick="ajax(this)">Adicionar
+						Doença
+					</button>
+					<button type="button" atualizarIds='#id_historico-cirurgias' type="button" class="btn btn-primary" url={% url 'form_ajax_cirurgia'%} onclick="ajax(this)">Adicionar
+						Cirurgia
+					</button>
+					<button type="button" atualizarIds='#id_historico-medicacoes' type="button" class="btn btn-primary" url={% url 'form_ajax_medicacao'%} onclick="ajax(this)">Adicionar
+						Medicação
+					</button>
+					
+					<br>
+					<br>
+					
+					{{ forms.historicoForm.as_p }}
+				</div>
+				
+				<div role="tabpanel" class="tab-pane" id="parq">
+					{{ forms.parqForm.as_p }}
+				</div>
+				
+				<div role="tabpanel" class="tab-pane" id="dadosVitais">
+					{{ forms.dadosVitaisForm.as_p }}
+				</div>
+
+			</div>
+
+		</div>
+
+		<div role="tabpanel" class="tab-pane" id="antropometria">
+			<h2>Antropometria</h2>
+
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href="#circunferencias" aria-controls="circunferencias" role="tab" data-toggle="tab">Circunferências</a></li>
+				<li role="presentation"><a href="#pesoAltura" aria-controls="pesoAltura" role="tab" data-toggle="tab">Peso e Altura</a></li>
+				<li role="presentation"><a href="#plicometria" aria-controls="plicometria" role="tab" data-toggle="tab">Plicometria</a></li>
+			</ul>
+
+			<div class="tab-content">
+
+				<div role="tabpanel" class="tab-pane active" id="circunferencias">
+					{{ forms.circunferenciasForm.as_p }}
+				</div>
+
+				<div role="tabpanel" class="tab-pane" id="pesoAltura">
+					{{ forms.pesoAlturaForm.as_p }}
+				</div>
+
+				<div role="tabpanel" class="tab-pane" id="plicometria">
+					{{forms.plicometriaForm.as_p }}
+				</div>
+
+			</div>
+
+		</div>
+		
+		<div role="tabpanel" class="tab-pane" id="postura">
+			<!--
+			<div class='formset-conteiner' addText="Adicionar Foto" deleteText="Remover Foto">
+            	{% for form in forms.imagemPosturalFormSet %}
+            		<hr />
+            		{{ form.as_p }}
+        		{% endfor %}
+            </div>
+            {{ forms.imagemPosturalFormSet.management_form }}
+		</div>
+		-->
+			Desabilitado para edição
+		</div>
+
+
+	<input type="submit" value="Salvar" /> <input type="submit" value="Cancelar" onclick="window.location={% url 'avaliacoes_listar' %}; return false" />
+</form>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<form method="post" id="formAjax">
+				{% csrf_token %}
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">
+						<sapn id='verbose' />
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div id='divForm'></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+					<button type="submit" class="btn btn-primary">Salvar</button>
+				</div>
+			</form>
+		</div>
+
+	</div>
+</div>
+
+{% endblock conteudo %}
+
+
+<!-- script src={% static "js/simpleClassAjaxForm.js" %} type="text/javascript"></script -->
+
+{% block scripts %}
+<script type="text/javascript">
+    $(function() {
+    	lista = $('.formset-conteiner')
+        $(lista).formset({
+        	addText: $(lista).attr('addText'),
+        	deleteText: $(lista).attr('deleteText'),
+        	prefix: '{{ forms.imagemPosturalFormSet.prefix }}'
+        });
+    })
+</script>
+
+<script type="text/javascript">
+$("#formAjax").submit(function() {
+	form = $(this);
+
+    $.ajax({
+           type: $(this).attr('method'),
+           url: $(this).attr('action'),
+           data: $(this).serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+           		//se for zero, é sucesso, e manda um objeto com id e nome
+           		 if(data['return'] == 0){
+           		 	//retiro o modal da tela
+           		 	$('#myModal').modal('hide');
+
+           		 	//monto uma string com a opção
+           		 	var option = '<option value="' + data['obj']['id'] + '">' + data['obj']['nome'] + '</option>'
+           		 	
+           		 	ids = $(form).attr('atualizarIds');
+           		 	
+           		 	//adiciono a opção no select
+           		 	$(ids).append(option)
+           		 	
+           		 }else{
+           		 	$('#divForm').html(data['html'])
+           		 }
+           		 
+           },
+           error : function(data){
+           	alert('erro')
+           }
+         });
+
+    return false; // avoid to execute the actual submit of the form.
+});
+</script>
+
+<script type="text/javascript">
+function ajax(obj){
+	url = $(obj).attr('url');
+	ids = $(obj).attr('atualizarIds');
+	
+	
+	$('#formAjax').attr('atualizarIds', ids);
+	$('#formAjax').attr('action', url);
+	
+	$('#verbose').html($(obj).text());
+	//$().html($(obj).text());
+	
+	$.get(url, function(data, status){
+       $('#divForm').html(data)
+       $('#myModal').modal('show');
+     });
+}
+</script>
+{% endblock %}
